@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+
+
 public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.AlarmViewHolder> {
 
     private List<AlarmObject> mAlarmObjectList;
     private Context context;
+    private long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
     public AlarmListAdapter(List<AlarmObject> alarms) {
 
@@ -42,7 +46,12 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
     public void onBindViewHolder(@NonNull final AlarmViewHolder holder, int position) {
 //        holder.bind(mAlarmObjectList.get(position));
         AlarmObject alarm = mAlarmObjectList.get(position);
-        long remainingAlarmTime = alarm.getExpirationTime() - System.currentTimeMillis();
+        long remainingAlarmTime = 0;
+        if (alarm.getExpirationTime() < System.currentTimeMillis()) {
+            remainingAlarmTime = DAY_AS_MILLI - (System.currentTimeMillis() - alarm.getExpirationTime());
+        } else {
+            remainingAlarmTime = alarm.getExpirationTime() - System.currentTimeMillis();
+        }
 
         TextView alarmName = holder.alarmName;
         alarmName.setText(alarm.getAlarmName());
@@ -52,8 +61,10 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             holder.countDown.cancel();
         }
         final long totalTime = alarm.getTimerLength();
-        holder.countDown = new CountDownTimer(remainingAlarmTime, 1000) {
+        final String type = alarm.getTimerType();
+        final String typeTime = alarm.getAlarmTime();
 
+        holder.countDown = new CountDownTimer(remainingAlarmTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 //                int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
@@ -65,7 +76,12 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
 
                 String time_left_formatted = String.format(Locale.getDefault(),"%02d:%02d:%02d", hours, minutes, seconds);
-                holder.remainingTime.setText(time_left_formatted);
+                if (type.equals("countdown")) {
+                    holder.remainingTime.setText(time_left_formatted);
+                } else {
+                    holder.remainingTime.setText(typeTime);
+                }
+
 
                 int progressLeft = (int)(( (float)(millisUntilFinished) / totalTime) * 100);
                 System.out.println(progressLeft);
@@ -157,5 +173,3 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         }
     }
 }
-
-
