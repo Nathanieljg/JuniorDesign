@@ -13,15 +13,15 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:text="00:00:00"
+            android:text="00:00:00 (test)"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
-            android:id="@+id/alarmName"
+            android:id="@+id/timerName"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:text="ALARM NAME"
+            android:text="ALARM NAME TEST"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <ProgressBar

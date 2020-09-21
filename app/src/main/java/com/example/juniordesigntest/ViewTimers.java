@@ -3,8 +3,6 @@ package com.example.juniordesigntest;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ViewTimers extends AppCompatActivity {
 
@@ -30,6 +25,7 @@ public class ViewTimers extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(ViewTimers.this, LinearLayoutManager.VERTICAL, false);
         alarmList.setLayoutManager(llm);
 
+        // uncomment to populate the TimerList with pre-made alarms when the app is launched
 //        for (int i=1; i < 6; i++) {
 //            String tempName = "Alarm " + i;
 //            long tempStartTime = 10000*i;
@@ -37,7 +33,7 @@ public class ViewTimers extends AppCompatActivity {
 //            System.out.println("TESTING" + i);
 //        }
 
-        AlarmListAdapter alarmAdapter = new AlarmListAdapter(GlobalAlarmList.alarmList);
+        TimerListAdapter alarmAdapter = new TimerListAdapter(GlobalTimerList.alarmList);
         alarmList.setAdapter(alarmAdapter);
 //        alarmAdapter.updateAlarmObjects(alarmObjects);
         alarmAdapter.notifyDataSetChanged();

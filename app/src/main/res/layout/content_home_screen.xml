@@ -24,14 +24,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="addTimer"
-            android:text="Add Timer" />
+            android:text="@string/add_timer_button" />
 
         <Button
             android:id="@+id/buttonViewTimers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="viewTimers"
-            android:text="View Timers" />
+            android:text="@string/view_timers_button" />
     </LinearLayout>
 
     <TextView
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[ATAK APPLICATION]"
-        android:textSize="30dp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

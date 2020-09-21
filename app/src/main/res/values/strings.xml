@@ -10,4 +10,12 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="timer_name_hint">timer name</string>
+    <string name="countdown_radio_label">Countdown</string>
+    <string name="alarm_radio_label">Alarm</string>
+    <string name="add_timer_button">Add Timer</string>
+    <string name="seconds_text">s</string>
+    <string name="minutes_text">m</string>
+    <string name="hours_text">h</string>
+    <string name="view_timers_button">View Timers</string>
 </resources>

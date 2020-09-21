@@ -5,7 +5,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,13 +14,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.invoke.ConstantCallSite;
-
 public class AddTimerActivity extends AppCompatActivity {
 
-    private static final long START_TIME_MILLI = 10000;
-
-    private Button buttonReset;
     private Button buttonAddTimer;
     private NumberPicker hours;
     private NumberPicker minutes;
@@ -30,8 +24,6 @@ public class AddTimerActivity extends AppCompatActivity {
     private RadioGroup timerSelection;
     private TextView letterS;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,43 +31,39 @@ public class AddTimerActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        text_view_timer = findViewById(R.id.text_view_timer);
-        buttonAddTimer = findViewById(R.id.button_add_timer);
-//        buttonReset = findViewById(R.id.button_reset);
-
-        hours = findViewById(R.id.number_picker_hours);
-        String [] hoursValues = new String[100];
-        for (int i=0; i < 100; i++) {
+        hours = findViewById(R.id.numberPickerHours);
+        String[] hoursValues = new String[100];
+        for (int i = 0; i < 100; i++) {
             hoursValues[i] = Integer.toString(i);
         }
         hours.setMinValue(0);
         hours.setMaxValue(99);
         hours.setDisplayedValues(hoursValues);
-        hours.setWrapSelectorWheel(false);
+        hours.setWrapSelectorWheel(true);
 
-
-        minutes = findViewById(R.id.number_picker_minutes);
-        String [] minutesValues = new String[60];
-        for (int i=0; i < 60; i++) {
+        minutes = findViewById(R.id.numberPickerMinutes);
+        String[] minutesValues = new String[60];
+        for (int i = 0; i < 60; i++) {
             minutesValues[i] = Integer.toString(i);
         }
         minutes.setMinValue(0);
         minutes.setMaxValue(59);
         minutes.setDisplayedValues(minutesValues);
-        minutes.setWrapSelectorWheel(false);
+        minutes.setWrapSelectorWheel(true);
 
-        seconds = findViewById(R.id.number_picker_seconds);
-        String [] secondsValues = new String[60];
-        for (int i=0; i < 60; i++) {
+        seconds = findViewById(R.id.numberPickerSeconds);
+        String[] secondsValues = new String[60];
+        for (int i = 0; i < 60; i++) {
             secondsValues[i] = Integer.toString(i);
         }
         seconds.setMinValue(0);
         seconds.setMaxValue(59);
         seconds.setDisplayedValues(secondsValues);
-        seconds.setWrapSelectorWheel(false);
+        seconds.setWrapSelectorWheel(true);
 
         editAlarmName = findViewById(R.id.alarmNameEditText);
 
+        buttonAddTimer = findViewById(R.id.buttonAddTimer);
         buttonAddTimer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 addAlarm();
@@ -83,40 +71,40 @@ public class AddTimerActivity extends AppCompatActivity {
         });
 
         timerSelection = findViewById(R.id.radioGroup);
-        letterS = findViewById(R.id.textViewms);
-        timerSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                                                      @Override
-                                                      public void onCheckedChanged(RadioGroup group, int checkedId) {
-                                                          switch(checkedId)
-                                                          {
-                                                              case R.id.radioButton:
-                                                                  String [] hoursValues = new String[100];
-                                                                  for (int i=0; i < 100; i++) {
-                                                                      hoursValues[i] = Integer.toString(i);
-                                                                  }
-                                                                  hours.setMinValue(0);
-                                                                  hours.setMaxValue(99);
-                                                                  hours.setDisplayedValues(hoursValues);
-                                                                  hours.setWrapSelectorWheel(false);
-                                                                  seconds.setVisibility(View.VISIBLE);
-                                                                  letterS.setVisibility(View.VISIBLE);
-                                                                  break;
-                                                              case R.id.radioButton2:
-                                                                  String [] hoursValues2 = new String[24];
-                                                                  for (int i=0; i < 24; i++) {
-                                                                      hoursValues2[i] = Integer.toString(i);
-                                                                  }
-                                                                  hours.setMinValue(0);
-                                                                  hours.setMaxValue(23);
-                                                                  hours.setDisplayedValues(hoursValues2);
-                                                                  hours.setWrapSelectorWheel(false);
-                                                                  seconds.setVisibility(View.GONE);
-                                                                  letterS.setVisibility(View.GONE);
-                                                                  break;
-                                                          }
-                                                      }
-        });
+        letterS = findViewById(R.id.textViewS); // used to hide and un-hide for alarm/countdown
 
+        // check if the radio button is set to countdown or alarm and change layout if needed
+        timerSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radioButtonCountdown:
+                        String[] hoursValuesCountdown = new String[100];
+                        for (int i = 0; i < 100; i++) {
+                            hoursValuesCountdown[i] = Integer.toString(i);
+                        }
+                        hours.setDisplayedValues(null); // prevents index out of bounds
+                        hours.setMinValue(0);
+                        hours.setMaxValue(99);
+                        hours.setDisplayedValues(hoursValuesCountdown);
+                        seconds.setVisibility(View.VISIBLE);
+                        letterS.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.radioButtonAlarm:
+                        String[] hoursValuesAlarm = new String[24];
+                        for (int i = 0; i < 24; i++) {
+                            hoursValuesAlarm[i] = Integer.toString(i);
+                        }
+                        hours.setDisplayedValues(null); // prevents index out of bounds
+                        hours.setMinValue(0);
+                        hours.setMaxValue(23);
+                        hours.setDisplayedValues(hoursValuesAlarm);
+                        seconds.setVisibility(View.GONE);
+                        letterS.setVisibility(View.GONE);
+                        break;
+                }
+            }
+        });
     }
 
     private void addAlarm() {
@@ -128,15 +116,17 @@ public class AddTimerActivity extends AppCompatActivity {
             long hoursToMilli = hours.getValue() * 60 * 60 * 1000;
             long minToMilli = minutes.getValue() * 60 * 1000;
             long secToMilli = seconds.getValue() * 1000;
+
             int checkedRadioButtonId = timerSelection.getCheckedRadioButtonId();
-            String name = "";
-            RadioButton radiovalue = this.findViewById(checkedRadioButtonId);
-            if (radiovalue.getText().toString().equals("Countdown")) {
-                name = "countdown";
-                GlobalAlarmList.alarmList.add(new AlarmObject(alarmName, hoursToMilli + minToMilli + secToMilli, name, 0,0));
+            RadioButton radioValue = this.findViewById(checkedRadioButtonId);
+
+            TimerType timerType;
+            if (radioValue.getText().toString().equals("Countdown")) {
+                timerType = TimerType.COUNTDOWN;
+                GlobalTimerList.alarmList.add(new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, 0, 0));
             } else {
-                name = "alarm";
-                GlobalAlarmList.alarmList.add(new AlarmObject(alarmName, hoursToMilli + minToMilli + secToMilli, name, hours.getValue(),minutes.getValue()));
+                timerType = TimerType.ALARM;
+                GlobalTimerList.alarmList.add(new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, hours.getValue(), minutes.getValue()));
             }
             Toast toast = Toast.makeText(getApplicationContext(), "Timer Added", Toast.LENGTH_SHORT);
             toast.show();
@@ -144,3 +134,4 @@ public class AddTimerActivity extends AppCompatActivity {
             AddTimerActivity.this.startActivity(myIntent);
         }
     }
+}
