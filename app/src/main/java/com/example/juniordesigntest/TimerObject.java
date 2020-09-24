@@ -30,13 +30,7 @@ public class TimerObject {
                 this.hours = hours;
                 this.minutes = minutes;
 
-                // get expiration time in millis
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.HOUR_OF_DAY, (int) hours);
-                cal.set(Calendar.MINUTE, (int) minutes);
-                TimeZone tz = TimeZone.getTimeZone("GMT");
-                cal.setTimeZone(tz);
-                this.expirationTime = cal.getTimeInMillis();
+                setExpirationInMillis();
 
                 if (getExpirationTime() < System.currentTimeMillis()) {
                     this.timerLength = DAY_AS_MILLI - (System.currentTimeMillis() - getExpirationTime());
@@ -88,7 +82,21 @@ public class TimerObject {
     }
 
     public void setTimerLength(long timerLength) {
-        this.timerLength = timerLength;
+        switch (timerType) {
+            case COUNTDOWN:
+                setExpirationTime(System.currentTimeMillis() + timerLength);
+                this.timerLength = timerLength;
+                break;
+            case ALARM:
+                setExpirationInMillis();
+
+                if (getExpirationTime() < System.currentTimeMillis()) {
+                    this.timerLength = DAY_AS_MILLI - (System.currentTimeMillis() - getExpirationTime());
+                } else {
+                    this.timerLength = getExpirationTime() - System.currentTimeMillis();
+                }
+                break;
+        }
     }
 
     public void setTimerType(TimerType timerType) {
@@ -102,4 +110,14 @@ public class TimerObject {
     public void setMinutes(long minutes) {
         this.minutes = minutes;
     }
+
+    public void setExpirationInMillis() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, (int) this.hours);
+        cal.set(Calendar.MINUTE, (int) this.minutes);
+        TimeZone tz = TimeZone.getTimeZone("GMT");
+        cal.setTimeZone(tz);
+        setExpirationTime(cal.getTimeInMillis());
+    }
+
 }

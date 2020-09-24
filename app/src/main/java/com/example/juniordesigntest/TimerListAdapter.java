@@ -57,15 +57,6 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         if (holder.countDown != null) {
             holder.countDown.cancel();
         }
-        final long totalTime = timer.getTimerLength();
-        final String typeTime = timer.getTimerTime();
-
-        long remainingTimerTime;
-        if (timer.getExpirationTime() < System.currentTimeMillis()) {
-            remainingTimerTime = DAY_AS_MILLI - (System.currentTimeMillis() - timer.getExpirationTime());
-        } else {
-            remainingTimerTime = timer.getExpirationTime() - System.currentTimeMillis();
-        }
 
         final int tempPos = position;
 
@@ -76,6 +67,16 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
                 context.startActivity(intent);
             }
         });
+
+        final long totalTime = timer.getTimerLength();
+        final String typeTime = timer.getTimerTime();
+
+        long remainingTimerTime;
+        if (timer.getExpirationTime() < System.currentTimeMillis()) {
+            remainingTimerTime = DAY_AS_MILLI - (System.currentTimeMillis() - timer.getExpirationTime());
+        } else {
+            remainingTimerTime = timer.getExpirationTime() - System.currentTimeMillis();
+        }
 
         holder.countDown = new CountDownTimer(remainingTimerTime, 1000) {
             @Override
