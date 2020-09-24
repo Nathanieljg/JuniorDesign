@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,6 +111,9 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
                 // TODO: Change to do something when a timer finishes
                 holder.timerRunning = false;
                 holder.progressBar.setProgress(0);
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(context, notification);
+                r.play();
             }
         }.start();
     }
@@ -143,5 +150,6 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
             timerName = itemView.findViewById(R.id.timerName);
             editButton = itemView.findViewById(R.id.editButton);
         }
+
     }
 }
