@@ -15,6 +15,8 @@ import android.widget.Button;
 
 public class ViewTimers extends AppCompatActivity {
 
+    private Button buttonHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,13 @@ public class ViewTimers extends AppCompatActivity {
         alarmList.setAdapter(alarmAdapter);
 //        alarmAdapter.updateAlarmObjects(alarmObjects);
         alarmAdapter.notifyDataSetChanged();
+
+        buttonHome = findViewById(R.id.buttonReturnHome);
+        buttonHome.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                returnHome(v);
+            }
+        });
 
     }
 
@@ -65,6 +74,11 @@ public class ViewTimers extends AppCompatActivity {
 
     public void addTimer(View view) {
         Intent intent = new Intent(ViewTimers.this, AddTimerActivity.class);
+        startActivity(intent);
+    }
+
+    public void returnHome(View view) {
+        Intent intent = new Intent(ViewTimers.this,HomeScreen.class);
         startActivity(intent);
     }
 }
