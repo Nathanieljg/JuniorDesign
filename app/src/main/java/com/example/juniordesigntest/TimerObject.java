@@ -1,5 +1,7 @@
 package com.example.juniordesigntest;
 
+import android.os.CountDownTimer;
+
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -13,6 +15,7 @@ public class TimerObject {
     private TimerType timerType;
     private long hours;
     private long minutes;
+    private CountDownTimer countDown;
 
     private final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
@@ -120,4 +123,11 @@ public class TimerObject {
         setExpirationTime(cal.getTimeInMillis());
     }
 
+    public CountDownTimer getCountDown() {
+        return countDown;
+    }
+
+    public void setCountDown(CountDownTimer countDown) {
+        this.countDown = countDown;
+    }
 }

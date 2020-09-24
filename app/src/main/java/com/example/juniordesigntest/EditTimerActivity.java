@@ -1,14 +1,24 @@
 package com.example.juniordesigntest;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Button;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.content.Intent;
 import android.widget.Toast;
@@ -26,6 +36,7 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
     private EditText editAlarmName;
     private TextView letterS;
     private Button buttonDone;
+    private static final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +125,7 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
         }
     }
 
-    private void editAlarm(TimerObject timer) {
+    private void editAlarm(final TimerObject timer) {
         String alarmName = editAlarmName.getText().toString();
         if (alarmName.equals("")) {
             Toast toast = Toast.makeText(getApplicationContext(), "Pick a Timer Name", Toast.LENGTH_SHORT);
@@ -135,6 +146,46 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
                 timer.setHours(hours.getValue());
                 timer.setMinutes(minutes.getValue());
             }
+
+            timer.getCountDown().cancel();
+
+            long remainingTimerTime;
+            if (timer.getExpirationTime() < System.currentTimeMillis()) {
+                remainingTimerTime = DAY_AS_MILLI - (System.currentTimeMillis() - timer.getExpirationTime());
+            } else {
+                remainingTimerTime = timer.getExpirationTime() - System.currentTimeMillis();
+            }
+
+            CountDownTimer countDown = new CountDownTimer(remainingTimerTime, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    // TODO: Early warning messages can be sent from here
+                }
+
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onFinish() {
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                    r.play();
+
+                    // TODO: Get notifications working
+//                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+//                    int notificationId = 0;
+//                    NotificationChannel notificationChannel = new NotificationChannel("ATAK_timers", "ATAK Timers", NotificationManager.IMPORTANCE_HIGH);
+//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), notificationChannel.getId())
+//                            .setContentTitle("Your timer has expired!")
+//                            .setContentText(timer.getTimerName())
+//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//                    notificationManager.notify(notificationId, builder.build());
+//                    notificationId++;
+
+                    GlobalTimerList.alarmList.remove(timer);
+                }
+
+            };
+            timer.setCountDown(countDown);
+            countDown.start();
 
             Toast toast = Toast.makeText(getApplicationContext(), "Timer Edited", Toast.LENGTH_SHORT);
             toast.show();
