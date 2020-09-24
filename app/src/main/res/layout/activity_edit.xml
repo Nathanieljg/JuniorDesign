@@ -1,26 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/dark_grey"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditActivity"
-    tools:deviceIds="wear"
-    android:padding="@dimen/box_inset_layout_padding">
+    tools:context=".EditTimerActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:boxedEdges="all">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-    </FrameLayout>
-</androidx.wear.widget.BoxInsetLayout>
+    <EditText
+        android:id="@+id/alarmNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/timer_name_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.091" />
+
+    <NumberPicker
+        android:id="@+id/editNumberPickerSeconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="244dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerMinutes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.197"
+        app:layout_constraintStart_toEndOf="@+id/textViewM"
+        app:layout_constraintTop_toTopOf="@+id/editNumberPickerMinutes"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <NumberPicker
+        android:id="@+id/editNumberPickerMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/alarmNameEditText"
+        app:layout_constraintHorizontal_bias="0.205"
+        app:layout_constraintStart_toStartOf="@+id/alarmNameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/alarmNameEditText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <NumberPicker
+        android:id="@+id/editNumberPickerHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerMinutes"
+        app:layout_constraintEnd_toEndOf="@+id/alarmNameEditText"
+        app:layout_constraintHorizontal_bias="0.399"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editNumberPickerMinutes"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/editTextViewH"
+        android:layout_width="46dp"
+        android:layout_height="102dp"
+        android:gravity="center"
+        android:text="@string/hours_text"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerHours"
+        app:layout_constraintEnd_toEndOf="@+id/alarmNameEditText"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toEndOf="@+id/editNumberPickerHours"
+        app:layout_constraintTop_toTopOf="@+id/editNumberPickerHours"
+        app:layout_constraintVertical_bias="0.487" />
+
+    <TextView
+        android:id="@+id/editTextViewM"
+        android:layout_width="46dp"
+        android:layout_height="102dp"
+        android:gravity="center"
+        android:text="@string/minutes_text"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerMinutes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintStart_toEndOf="@+id/editNumberPickerMinutes"
+        app:layout_constraintTop_toTopOf="@+id/editNumberPickerMinutes"
+        app:layout_constraintVertical_bias="0.487" />
+
+    <TextView
+        android:id="@+id/editTextViewS"
+        android:layout_width="46dp"
+        android:layout_height="102dp"
+        android:gravity="center"
+        android:text="@string/seconds_text"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerSeconds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toEndOf="@+id/editNumberPickerSeconds"
+        app:layout_constraintTop_toTopOf="@+id/editNumberPickerSeconds"
+        app:layout_constraintVertical_bias="0.487" />
+
+    <Button
+        android:id="@+id/buttonDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DONE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.931" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

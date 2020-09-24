@@ -1,12 +1,14 @@
 package com.example.juniordesigntest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,9 +27,10 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     private Context context;
     private static final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
-    public TimerListAdapter(List<TimerObject> alarms) {
+    public TimerListAdapter(List<TimerObject> alarms, Context context) {
 
         mTimerObjectList = GlobalTimerList.alarmList;
+        this.context = context;
         notifyDataSetChanged();
     }
 
@@ -59,6 +62,16 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         } else {
             remainingTimerTime = timer.getExpirationTime() - System.currentTimeMillis();
         }
+
+        final int tempPos = position;
+
+        holder.editButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(context, EditTimerActivity.class);
+                intent.putExtra("index", tempPos);
+                context.startActivity(intent);
+            }
+        });
 
         holder.countDown = new CountDownTimer(remainingTimerTime, 1000) {
             @Override
@@ -118,6 +131,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         private TextView timerName;
         private ProgressBar progressBar;
         private TextView remainingTime;
+        private Button editButton;
 
         private CountDownTimer countDown;
         private boolean timerRunning;
@@ -127,6 +141,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
             progressBar = itemView.findViewById(R.id.progressBar);
             remainingTime = itemView.findViewById(R.id.timeLeft);
             timerName = itemView.findViewById(R.id.timerName);
+            editButton = itemView.findViewById(R.id.editButton);
         }
     }
 }

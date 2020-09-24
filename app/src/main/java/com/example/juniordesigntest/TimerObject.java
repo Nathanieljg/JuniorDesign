@@ -67,5 +67,39 @@ public class TimerObject {
 
     String getTimerTime() { return String.format(Locale.getDefault(), "%02d:%02d", hours, minutes); }
 
+    public long getHours() {
+        return hours;
+    }
 
+    public long getMinutes() {
+        return minutes;
+    }
+
+    public void setTimerName(String timerName) {
+        this.timerName = timerName;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setExpirationTime(long expirationTime) {
+        this.expirationTime = expirationTime;
+    }
+
+    public void setTimerLength(long timerLength) {
+        this.timerLength = timerLength;
+    }
+
+    public void setTimerType(TimerType timerType) {
+        this.timerType = timerType;
+    }
+
+    public void setHours(long hours) {
+        this.hours = hours;
+    }
+
+    public void setMinutes(long minutes) {
+        this.minutes = minutes;
+    }
 }

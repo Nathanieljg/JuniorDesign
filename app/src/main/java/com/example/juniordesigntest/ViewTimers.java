@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class ViewTimers extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class ViewTimers extends AppCompatActivity {
 //            System.out.println("TESTING" + i);
 //        }
 
-        TimerListAdapter alarmAdapter = new TimerListAdapter(GlobalTimerList.alarmList);
+        TimerListAdapter alarmAdapter = new TimerListAdapter(GlobalTimerList.alarmList, this);
         alarmList.setAdapter(alarmAdapter);
 //        alarmAdapter.updateAlarmObjects(alarmObjects);
         alarmAdapter.notifyDataSetChanged();
@@ -67,3 +68,4 @@ public class ViewTimers extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
