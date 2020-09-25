@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -163,15 +164,35 @@ public class AddTimerActivity extends AppCompatActivity {
                     r.play();
 
                     // TODO: Get notifications working
-//                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-//                    int notificationId = 0;
-//                    NotificationChannel notificationChannel = new NotificationChannel("ATAK_timers", "ATAK Timers", NotificationManager.IMPORTANCE_HIGH);
-//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), notificationChannel.getId())
-//                            .setContentTitle("Your timer has expired!")
-//                            .setContentText(timer.getTimerName())
-//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//                    notificationManager.notify(notificationId, builder.build());
-//                    notificationId++;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        CharSequence name = "ATTAK_timer";
+                        String description = "Channel for timer notifications";
+                        int importance = NotificationManager.IMPORTANCE_HIGH;
+                        NotificationChannel channel = new NotificationChannel("test", name, importance);
+                        channel.setDescription(description);
+                        // Register the channel with the system; you can't change the importance
+                        // or other notification behaviors after this
+                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                        notificationManager.createNotificationChannel(channel);
+                    }
+
+//                     TODO: add intent functionality so that clicking on the notification will stop alarm and take you to alarm details
+//                    Intent intent = new Intent(this, AlertDetails.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "test" )
+                            .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
+                            .setContentTitle(timer.getTimerName())
+                            .setContentText("Timer complete!")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//                            .setContentIntent(pendingIntent)
+//                            .setAutoCancel(true);
+                    int notificationId = 0;
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                    // notificationId is a unique int for each notification that you must define
+                    notificationManager.notify(notificationId, builder.build());
+                    notificationId++;
 
                     GlobalTimerList.alarmList.remove(timer);
                 }
