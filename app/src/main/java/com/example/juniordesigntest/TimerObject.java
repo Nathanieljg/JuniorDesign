@@ -17,11 +17,11 @@ public class TimerObject {
     private long hours;
     private long minutes;
     private CountDownTimer countDown;
-    private List<Long> earlyNotifications;
+    private List<long[]> earlyNotifications;
 
     private final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
-    TimerObject(String timerName, long timerLength, TimerType timerType, long hours, long minutes, List<Long> earlyNotifications) {
+    TimerObject(String timerName, long timerLength, TimerType timerType, long hours, long minutes, List<long[]> earlyNotifications) {
         this.timerName = timerName;
         this.startTime = System.currentTimeMillis();
         this.timerType = timerType;
