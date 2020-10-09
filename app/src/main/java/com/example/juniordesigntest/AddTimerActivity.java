@@ -43,7 +43,7 @@ public class AddTimerActivity extends AppCompatActivity {
     private RadioGroup timerSelection;
     private TextView letterS;
     private static final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
-    private List<Long> earlyNotifications;
+    private List<long[]> earlyNotifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,16 +157,15 @@ public class AddTimerActivity extends AppCompatActivity {
             }
         });
     }
-    private void addEarlyNotifications() {
+    private void addEarlyNotifications() { //this is called whenver the add notification button is pushed
         Toast toast = Toast.makeText(getApplicationContext(), "Early Notification added", Toast.LENGTH_SHORT);
 
         long hoursToMilli = earlyHours.getValue() * 60 * 60 * 1000;
         long minToMilli = earlyMinutes.getValue() * 60 * 1000;
         long secToMilli = earlySeconds.getValue() * 1000;
         if (hoursToMilli != 0 || minToMilli != 0 || secToMilli != 0) {
-            long earlyNotificationLength = hoursToMilli + minToMilli + secToMilli;
+            long[] earlyNotificationLength = {hoursToMilli, minToMilli, secToMilli};
             earlyNotifications.add(earlyNotificationLength);
-            Log.println(Log.DEBUG, "Early Notification", "Added early notification: " + earlyNotificationLength + " for a total of " + earlyNotifications.size() + " notifications.");
             toast.show();
             earlyHours.setValue(0);
             earlyMinutes.setValue(0);
@@ -184,8 +183,8 @@ public class AddTimerActivity extends AppCompatActivity {
             long minToMilli = minutes.getValue() * 60 * 1000;
             long secToMilli = seconds.getValue() * 1000;
 
-            for (long earlyNotification: earlyNotifications) {
-                if (hoursToMilli + minToMilli + secToMilli < earlyNotification) {
+            for (long[] earlyNotification: earlyNotifications) {
+                if (hoursToMilli + minToMilli + secToMilli < earlyNotification[0] + earlyNotification[1] + earlyNotification[2]) {
                     earlyNotifications.remove(earlyNotification);
                 }
             }
@@ -215,12 +214,16 @@ public class AddTimerActivity extends AppCompatActivity {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     // TODO: Early warning messages can be sent from here
-                    for (long earlyReminder: earlyNotifications){
-                        Log.println(Log.ASSERT, "Warning", millisUntilFinished + " remain; This is an early notification: " + earlyReminder);
-                        if (millisUntilFinished < earlyReminder){
-                            sendNotification("Early Notification!");
-                            earlyNotifications.remove(earlyReminder);
+                    long[] toRemove = null;
+                    for (long[] earlyReminder: earlyNotifications){
+                        if (millisUntilFinished <= earlyReminder[0] + earlyReminder[1] + earlyReminder[2]){
+                            sendNotification(earlyReminder[0] / 3600000 + " Hours, " + earlyReminder[1] / 60000 +
+                                    " Minutes, " + earlyReminder[2] / 1000 + " Seconds Remaining!");
+                            toRemove = earlyReminder;
                         }
+                    }
+                    if (toRemove != null) { //removes the already triggered notification
+                        earlyNotifications.remove(toRemove);
                     }
                 }
 
