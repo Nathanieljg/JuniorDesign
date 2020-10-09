@@ -14,10 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNotificationListAdapter.EarlyNotificationViewHolder> {
 
-    private List<Long> mEarlyNotifications;
+    private List<long[]> mEarlyNotifications;
 
     public EarlyNotificationListAdapter(int timerObjectPos) {
         this.mEarlyNotifications = GlobalTimerList.alarmList.get(timerObjectPos).getEarlyNotifications();
@@ -35,8 +37,8 @@ public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNoti
     @Override
     public void onBindViewHolder(@NonNull EarlyNotificationViewHolder holder, final int position) {
 
-        final long earlyNotification = mEarlyNotifications.get(position);
-        holder.earlyNotificationTime.setText(String.valueOf(earlyNotification));
+        final long[] earlyNotification = mEarlyNotifications.get(position);
+        holder.earlyNotificationTime.setText(formatEarlyNotificationString(earlyNotification));
 
         holder.deleteButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View view) {
@@ -45,6 +47,16 @@ public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNoti
             }
         });
 
+    }
+
+    public String formatEarlyNotificationString(long[] notification) {
+        long hours = TimeUnit.MILLISECONDS.toHours(notification[0]);
+        long min = TimeUnit.MILLISECONDS.toMinutes(notification[1]);
+        long sec = TimeUnit.MILLISECONDS.toSeconds(notification[2]);
+        return String.format(Locale.getDefault(), "%02d:%02d:%02d",
+                hours,
+                min,
+                sec);
     }
 
     @Override

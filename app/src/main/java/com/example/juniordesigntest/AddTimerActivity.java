@@ -215,7 +215,9 @@ public class AddTimerActivity extends AppCompatActivity {
                 public void onTick(long millisUntilFinished) {
                     // TODO: Early warning messages can be sent from here
                     long[] toRemove = null;
-                    for (long[] earlyReminder: earlyNotifications){
+                    earlyNotifications = timer.getEarlyNotifications();
+
+                    for (long[] earlyReminder: earlyNotifications) {
                         if (millisUntilFinished <= earlyReminder[0] + earlyReminder[1] + earlyReminder[2]){
                             sendNotification(earlyReminder[0] / 3600000 + " Hours, " + earlyReminder[1] / 60000 +
                                     " Minutes, " + earlyReminder[2] / 1000 + " Seconds Remaining!");

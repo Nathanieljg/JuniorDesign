@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -170,38 +171,73 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     // TODO: Early warning messages can be sent from here
+                    long[] toRemove = null;
+                    List<long[]> earlyNotifications = timer.getEarlyNotifications();
+
+                    for (long[] earlyReminder: earlyNotifications) {
+                        if (millisUntilFinished <= earlyReminder[0] + earlyReminder[1] + earlyReminder[2]){
+                            sendNotification(earlyReminder[0] / 3600000 + " Hours, " + earlyReminder[1] / 60000 +
+                                    " Minutes, " + earlyReminder[2] / 1000 + " Seconds Remaining!");
+                            toRemove = earlyReminder;
+                        }
+                    }
+                    if (toRemove != null) { //removes the already triggered notification
+                        earlyNotifications.remove(toRemove);
+                    }
                 }
 
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onFinish() {
+                    sendNotification("Timer complete!");
+                    GlobalTimerList.alarmList.remove(timer);
+                }
+                public void sendNotification(String contentText) {
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
 
-                    // TODO: Get notifications working
-//                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-//                    int notificationId = 0;
-//                    NotificationChannel notificationChannel = new NotificationChannel("ATAK_timers", "ATAK Timers", NotificationManager.IMPORTANCE_HIGH);
-//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), notificationChannel.getId())
-//                            .setContentTitle("Your timer has expired!")
-//                            .setContentText(timer.getTimerName())
-//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//                    notificationManager.notify(notificationId, builder.build());
-//                    notificationId++;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        CharSequence name = "ATTAK_timer";
+                        String description = "Channel for timer notifications";
+                        int importance = NotificationManager.IMPORTANCE_HIGH;
+                        NotificationChannel channel = new NotificationChannel("test", name, importance);
+                        channel.setDescription(description);
+                        // Register the channel with the system; you can't change the importance
+                        // or other notification behaviors after this
+                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                        notificationManager.createNotificationChannel(channel);
+                    }
 
-                    GlobalTimerList.alarmList.remove(timer);
+//                     TODO: add intent functionality so that clicking on the notification will stop alarm and take you to alarm details
+//                    Intent intent = new Intent(this, AlertDetails.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "test" )
+                            .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
+                            .setContentTitle(timer.getTimerName())
+                            .setContentText(contentText)
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//                            .setContentIntent(pendingIntent)
+//                            .setAutoCancel(true);
+                    int notificationId = 0;
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                    // notificationId is a unique int for each notification that you must define
+                    notificationManager.notify(notificationId, builder.build());
+                    notificationId++;
                 }
 
             };
             timer.setCountDown(countDown);
             countDown.start();
 
-            Toast toast = Toast.makeText(getApplicationContext(), "Timer Edited", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), "Timer Added", Toast.LENGTH_SHORT);
             toast.show();
-            Intent myIntent = new Intent(EditTimerActivity.this, ViewTimers.class);
+            Intent myIntent = new Intent(EditTimerActivity.this, HomeScreen.class);
             EditTimerActivity.this.startActivity(myIntent);
         }
+
     }
 
     public void loadEarlyNotificationFragment(View view) {
