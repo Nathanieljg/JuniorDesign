@@ -75,6 +75,8 @@ public class TimerObject {
         return minutes;
     }
 
+    public List<Long> getEarlyNotifications() { return earlyNotifications; }
+
     public void setTimerName(String timerName) {
         this.timerName = timerName;
     }
@@ -132,5 +134,9 @@ public class TimerObject {
 
     public void setCountDown(CountDownTimer countDown) {
         this.countDown = countDown;
+    }
+
+    public void setEarlyNotifications(List<Long> earlyNotifications) {
+        this.earlyNotifications = earlyNotifications;
     }
 }

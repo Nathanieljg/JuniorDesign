@@ -122,4 +122,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.931" />
 
+    <Button
+        android:id="@+id/editEarlyNotificationsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextViewS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextViewS"
+        app:layout_constraintTop_toTopOf="@+id/editTextViewS" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

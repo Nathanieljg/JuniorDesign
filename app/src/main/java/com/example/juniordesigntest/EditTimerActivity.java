@@ -36,6 +36,8 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
     private EditText editAlarmName;
     private TextView letterS;
     private Button buttonDone;
+    private Button earlyNotificationButton;
+    private int pos;
     private static final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
     @Override
@@ -44,7 +46,7 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         Intent intent = getIntent();
-        int pos = intent.getIntExtra("index", 0);
+        pos = intent.getIntExtra("index", 0);
 
         final TimerObject timer = mTimerObjectList.get(pos);
 
@@ -68,6 +70,14 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
         letterS = findViewById(R.id.editTextViewS);
 
         editAlarmName = findViewById(R.id.alarmNameEditText);
+
+        earlyNotificationButton = findViewById(R.id.editEarlyNotificationsButton);
+        earlyNotificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadEarlyNotificationFragment(v);
+            }
+        });
 
         buttonDone = findViewById(R.id.buttonDone);
         buttonDone.setOnClickListener(new View.OnClickListener() {
@@ -192,5 +202,13 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
             Intent myIntent = new Intent(EditTimerActivity.this, ViewTimers.class);
             EditTimerActivity.this.startActivity(myIntent);
         }
+    }
+
+    public void loadEarlyNotificationFragment(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("pos", pos);
+        EarlyNotificationFragment earlyNotificationFragment = new EarlyNotificationFragment();
+        earlyNotificationFragment.setArguments(bundle);
+        earlyNotificationFragment.show(getSupportFragmentManager(), "TEST");
     }
 }
