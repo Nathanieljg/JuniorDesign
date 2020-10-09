@@ -14,6 +14,7 @@
     <string name="countdown_radio_label">Countdown</string>
     <string name="alarm_radio_label">Alarm</string>
     <string name="add_timer_button">Add Timer</string>
+    <string name="add_early_button">Add Early Notification</string>
     <string name="seconds_text">s</string>
     <string name="minutes_text">m</string>
     <string name="hours_text">h</string>
