@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,16 +26,24 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddTimerActivity extends AppCompatActivity {
 
+    private Button buttonAddEarlyNotifications;
     private Button buttonAddTimer;
     private NumberPicker hours;
+    private NumberPicker earlyHours;
     private NumberPicker minutes;
+    private NumberPicker earlyMinutes;
     private NumberPicker seconds;
+    private NumberPicker earlySeconds;
     private EditText editAlarmName;
     private RadioGroup timerSelection;
     private TextView letterS;
     private static final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
+    private List<long[]> earlyNotifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,10 @@ public class AddTimerActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        earlyNotifications = new ArrayList<>();
         hours = findViewById(R.id.numberPickerHours);
+        earlyHours = findViewById(R.id.earlyNumberPickerHours);
+
         String[] hoursValues = new String[100];
         for (int i = 0; i < 100; i++) {
             hoursValues[i] = Integer.toString(i);
@@ -53,7 +65,14 @@ public class AddTimerActivity extends AppCompatActivity {
         hours.setDisplayedValues(hoursValues);
         hours.setWrapSelectorWheel(true);
 
+        earlyHours.setMinValue(0);
+        earlyHours.setMaxValue(99);
+        earlyHours.setDisplayedValues(hoursValues);
+        earlyHours.setWrapSelectorWheel(true);
+
         minutes = findViewById(R.id.numberPickerMinutes);
+        earlyMinutes = findViewById(R.id.earlyNumberPickerMinutes);
+
         String[] minutesValues = new String[60];
         for (int i = 0; i < 60; i++) {
             minutesValues[i] = Integer.toString(i);
@@ -63,7 +82,14 @@ public class AddTimerActivity extends AppCompatActivity {
         minutes.setDisplayedValues(minutesValues);
         minutes.setWrapSelectorWheel(true);
 
+        earlyMinutes.setMinValue(0);
+        earlyMinutes.setMaxValue(59);
+        earlyMinutes.setDisplayedValues(minutesValues);
+        earlyMinutes.setWrapSelectorWheel(true);
+
+        earlySeconds = findViewById(R.id.earlyNumberPickerSeconds);
         seconds = findViewById(R.id.numberPickerSeconds);
+
         String[] secondsValues = new String[60];
         for (int i = 0; i < 60; i++) {
             secondsValues[i] = Integer.toString(i);
@@ -73,6 +99,11 @@ public class AddTimerActivity extends AppCompatActivity {
         seconds.setDisplayedValues(secondsValues);
         seconds.setWrapSelectorWheel(true);
 
+        earlySeconds.setMinValue(0);
+        earlySeconds.setMaxValue(59);
+        earlySeconds.setDisplayedValues(secondsValues);
+        earlySeconds.setWrapSelectorWheel(true);
+
         editAlarmName = findViewById(R.id.alarmNameEditText);
 
         buttonAddTimer = findViewById(R.id.buttonAddTimer);
@@ -81,6 +112,14 @@ public class AddTimerActivity extends AppCompatActivity {
                 addAlarm();
             }
         });
+
+        buttonAddEarlyNotifications = findViewById(R.id.buttonAddEarly);
+        buttonAddEarlyNotifications.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addEarlyNotifications();
+            }
+        });
+
 
         timerSelection = findViewById(R.id.radioGroup);
         letterS = findViewById(R.id.textViewS); // used to hide and un-hide for alarm/countdown
@@ -118,7 +157,22 @@ public class AddTimerActivity extends AppCompatActivity {
             }
         });
     }
+    private void addEarlyNotifications() { //this is called whenver the add notification button is pushed
+        Toast toast = Toast.makeText(getApplicationContext(), "Early Notification added", Toast.LENGTH_SHORT);
 
+        long hoursToMilli = earlyHours.getValue() * 60 * 60 * 1000;
+        long minToMilli = earlyMinutes.getValue() * 60 * 1000;
+        long secToMilli = earlySeconds.getValue() * 1000;
+        if (hoursToMilli != 0 || minToMilli != 0 || secToMilli != 0) {
+            long[] earlyNotificationLength = {hoursToMilli, minToMilli, secToMilli};
+            earlyNotifications.add(earlyNotificationLength);
+            toast.show();
+            earlyHours.setValue(0);
+            earlyMinutes.setValue(0);
+            earlySeconds.setValue(0);
+        }
+
+    }
     private void addAlarm() {
         String alarmName = editAlarmName.getText().toString();
         if (alarmName.equals("")) {
@@ -129,6 +183,12 @@ public class AddTimerActivity extends AppCompatActivity {
             long minToMilli = minutes.getValue() * 60 * 1000;
             long secToMilli = seconds.getValue() * 1000;
 
+            for (long[] earlyNotification: earlyNotifications) {
+                if (hoursToMilli + minToMilli + secToMilli < earlyNotification[0] + earlyNotification[1] + earlyNotification[2]) {
+                    earlyNotifications.remove(earlyNotification);
+                }
+            }
+
             int checkedRadioButtonId = timerSelection.getCheckedRadioButtonId();
             RadioButton radioValue = this.findViewById(checkedRadioButtonId);
 
@@ -136,10 +196,10 @@ public class AddTimerActivity extends AppCompatActivity {
             final TimerObject timer;
             if (radioValue.getText().toString().equals("Countdown")) {
                 timerType = TimerType.COUNTDOWN;
-                timer = new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, 0, 0);
+                timer = new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, 0, 0, earlyNotifications);
             } else {
                 timerType = TimerType.ALARM;
-                timer = new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, hours.getValue(), minutes.getValue());
+                timer = new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, hours.getValue(), minutes.getValue(), earlyNotifications);
             }
             GlobalTimerList.alarmList.add(timer);
 
@@ -154,16 +214,32 @@ public class AddTimerActivity extends AppCompatActivity {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     // TODO: Early warning messages can be sent from here
+                    long[] toRemove = null;
+                    earlyNotifications = timer.getEarlyNotifications();
+
+                    for (long[] earlyReminder: earlyNotifications) {
+                        if (millisUntilFinished <= earlyReminder[0] + earlyReminder[1] + earlyReminder[2]){
+                            sendNotification(earlyReminder[0] / 3600000 + " Hours, " + earlyReminder[1] / 60000 +
+                                    " Minutes, " + earlyReminder[2] / 1000 + " Seconds Remaining!");
+                            toRemove = earlyReminder;
+                        }
+                    }
+                    if (toRemove != null) { //removes the already triggered notification
+                        earlyNotifications.remove(toRemove);
+                    }
                 }
 
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onFinish() {
+                    sendNotification("Timer complete!");
+                    GlobalTimerList.alarmList.remove(timer);
+                }
+                public void sendNotification(String contentText) {
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
 
-                    // TODO: Get notifications working
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         CharSequence name = "ATTAK_timer";
                         String description = "Channel for timer notifications";
@@ -184,7 +260,7 @@ public class AddTimerActivity extends AppCompatActivity {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "test" )
                             .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
                             .setContentTitle(timer.getTimerName())
-                            .setContentText("Timer complete!")
+                            .setContentText(contentText)
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 //                            .setContentIntent(pendingIntent)
 //                            .setAutoCancel(true);
@@ -193,8 +269,6 @@ public class AddTimerActivity extends AppCompatActivity {
                     // notificationId is a unique int for each notification that you must define
                     notificationManager.notify(notificationId, builder.build());
                     notificationId++;
-
-                    GlobalTimerList.alarmList.remove(timer);
                 }
 
             };
@@ -207,4 +281,5 @@ public class AddTimerActivity extends AppCompatActivity {
             AddTimerActivity.this.startActivity(myIntent);
         }
     }
+
 }

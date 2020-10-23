@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
+    android:id="@+id/editActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditTimerActivity">
@@ -18,6 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <EditText
         android:id="@+id/alarmNameEditText"
@@ -121,5 +126,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.931" />
+
+    <Button
+        android:id="@+id/editEarlyNotificationsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="edit early notifications"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonDone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonDone"
+        app:layout_constraintTop_toTopOf="@+id/buttonDone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

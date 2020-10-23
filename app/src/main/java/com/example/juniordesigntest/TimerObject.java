@@ -3,6 +3,7 @@ package com.example.juniordesigntest;
 import android.os.CountDownTimer;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -16,13 +17,15 @@ public class TimerObject {
     private long hours;
     private long minutes;
     private CountDownTimer countDown;
+    private List<long[]> earlyNotifications;
 
     private final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
-    TimerObject(String timerName, long timerLength, TimerType timerType, long hours, long minutes) {
+    TimerObject(String timerName, long timerLength, TimerType timerType, long hours, long minutes, List<long[]> earlyNotifications) {
         this.timerName = timerName;
         this.startTime = System.currentTimeMillis();
         this.timerType = timerType;
+        this.earlyNotifications = earlyNotifications;
 
         switch (timerType) {
             case COUNTDOWN:
@@ -71,6 +74,8 @@ public class TimerObject {
     public long getMinutes() {
         return minutes;
     }
+
+    public List<long[]> getEarlyNotifications() { return earlyNotifications; }
 
     public void setTimerName(String timerName) {
         this.timerName = timerName;
@@ -129,5 +134,9 @@ public class TimerObject {
 
     public void setCountDown(CountDownTimer countDown) {
         this.countDown = countDown;
+    }
+
+    public void setEarlyNotifications(List<long[]> earlyNotifications) {
+        this.earlyNotifications = earlyNotifications;
     }
 }
