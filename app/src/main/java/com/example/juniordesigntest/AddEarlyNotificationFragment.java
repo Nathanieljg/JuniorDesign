@@ -25,7 +25,7 @@ public class AddEarlyNotificationFragment extends DialogFragment implements Dial
     private NumberPicker hours;
     private NumberPicker minutes;
     private NumberPicker seconds;
-    private List<long[]> mEarlyNotifications;
+    private List<EarlyNotificationObject> mEarlyNotifications;
     private Button addEarlyWarningDialogButton;
 
     public AddEarlyNotificationFragment() {
@@ -104,7 +104,7 @@ public class AddEarlyNotificationFragment extends DialogFragment implements Dial
         long secToMilli = seconds.getValue() * 1000;
         if (hoursToMilli != 0 || minToMilli != 0 || secToMilli != 0) {
             long[] earlyNotificationLength = {hoursToMilli, minToMilli, secToMilli};
-            mEarlyNotifications.add(earlyNotificationLength);
+            mEarlyNotifications.add(new EarlyNotificationObject(earlyNotificationLength));
         }
         this.dismiss();
     }

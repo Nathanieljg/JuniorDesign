@@ -1,7 +1,11 @@
 package com.example.juniordesigntest;
 
+import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -136,6 +140,80 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
         }
     }
 
+    /*
+Schedules a new notification and returns the ID of the notification
+ */
+    private int scheduleNotification(Notification notification, long expirationTime) {
+        int notificationId = GlobalTimerList.getNewAlarmId();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "ATTAK_timer";
+            String description = "Channel for timer notifications";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("test", name, importance);
+            channel.setDescription(description);
+
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+            Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
+            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(
+                    expirationTime,
+                    pendingIntent);
+            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);
+
+//            alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, expirationTime, pendingIntent);
+        }
+        return notificationId;
+    }
+
+    private Notification getNotification(String contentTitle, String contentText) {
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "test" )
+                .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        return builder.build();
+    }
+
+    private void removeNotification(int notificationId, Notification notification) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "ATTAK_timer";
+            String description = "Channel for timer notifications";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("test", name, importance);
+            channel.setDescription(description);
+
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+            Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
+            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(
+                    expirationTime,
+                    pendingIntent);
+            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);
+
+//            alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, expirationTime, pendingIntent);
+        }
+        return notificationId;
+    }
+
     private void editAlarm(final TimerObject timer) {
         String alarmName = editAlarmName.getText().toString();
         if (alarmName.equals("")) {
@@ -166,71 +244,85 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
             } else {
                 remainingTimerTime = timer.getExpirationTime() - System.currentTimeMillis();
             }
+            // TODO: Switch to use AlarmManager
 
-            CountDownTimer countDown = new CountDownTimer(remainingTimerTime, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    // TODO: Early warning messages can be sent from here
-                    long[] toRemove = null;
-                    List<long[]> earlyNotifications = timer.getEarlyNotifications();
+//            CountDownTimer countDown = new CountDownTimer(remainingTimerTime, 1000) {
+//                @Override
+//                public void onTick(long millisUntilFinished) {
+//                    long[] toRemove = null;
+//                    List<EarlyNotificationObject> earlyNotifications = timer.getEarlyNotifications();
+//
+//                    for (EarlyNotificationObject earlyReminder: earlyNotifications) {
+//                        if (millisUntilFinished <= earlyReminder[0] + earlyReminder[1] + earlyReminder[2]){
+//                            sendNotification(earlyReminder[0] / 3600000 + " Hours, " + earlyReminder[1] / 60000 +
+//                                    " Minutes, " + earlyReminder[2] / 1000 + " Seconds Remaining!");
+//                            toRemove = earlyReminder;
+//                        }
+//                    }
+//                    if (toRemove != null) { //removes the already triggered notification
+//                        earlyNotifications.remove(toRemove);
+//                    }
+//                }
+//
+//                @RequiresApi(api = Build.VERSION_CODES.O)
+//                @Override
+//                public void onFinish() {
+//                    sendNotification("Timer complete!");
+//                    GlobalTimerList.alarmList.remove(timer);
+//                }
+//                public void sendNotification(String contentText) {
+//                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+//                    r.play();
+//
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        CharSequence name = "ATTAK_timer";
+//                        String description = "Channel for timer notifications";
+//                        int importance = NotificationManager.IMPORTANCE_HIGH;
+//                        NotificationChannel channel = new NotificationChannel("test", name, importance);
+//                        channel.setDescription(description);
+//                        // Register the channel with the system; you can't change the importance
+//                        // or other notification behaviors after this
+//                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//                        notificationManager.createNotificationChannel(channel);
+//                    }
+//
+////                     TODO: add intent functionality so that clicking on the notification will stop alarm and take you to alarm details
+////                    Intent intent = new Intent(this, AlertDetails.class);
+////                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+////                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+//
+//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "test" )
+//                            .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
+//                            .setContentTitle(timer.getTimerName())
+//                            .setContentText(contentText)
+//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+////                            .setContentIntent(pendingIntent)
+////                            .setAutoCancel(true);
+//                    int notificationId = 0;
+//                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+//                    // notificationId is a unique int for each notification that you must define
+//                    notificationManager.notify(notificationId, builder.build());
+//                    notificationId++;
+//                }
+//
+//            };
+//            timer.setCountDown(countDown);
+//            countDown.start();
 
-                    for (long[] earlyReminder: earlyNotifications) {
-                        if (millisUntilFinished <= earlyReminder[0] + earlyReminder[1] + earlyReminder[2]){
-                            sendNotification(earlyReminder[0] / 3600000 + " Hours, " + earlyReminder[1] / 60000 +
-                                    " Minutes, " + earlyReminder[2] / 1000 + " Seconds Remaining!");
-                            toRemove = earlyReminder;
-                        }
-                    }
-                    if (toRemove != null) { //removes the already triggered notification
-                        earlyNotifications.remove(toRemove);
-                    }
-                }
+            // Create main alarms
+            int timerNotificationId = scheduleNotification(
+                    getNotification(timer.getTimerName(), "Timer Complete"),
+                    timer.getExpirationTime());
+            timer.setAlarmId(timerNotificationId);
 
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public void onFinish() {
-                    sendNotification("Timer complete!");
-                    GlobalTimerList.alarmList.remove(timer);
-                }
-                public void sendNotification(String contentText) {
-                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                    r.play();
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        CharSequence name = "ATTAK_timer";
-                        String description = "Channel for timer notifications";
-                        int importance = NotificationManager.IMPORTANCE_HIGH;
-                        NotificationChannel channel = new NotificationChannel("test", name, importance);
-                        channel.setDescription(description);
-                        // Register the channel with the system; you can't change the importance
-                        // or other notification behaviors after this
-                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                        notificationManager.createNotificationChannel(channel);
-                    }
-
-//                     TODO: add intent functionality so that clicking on the notification will stop alarm and take you to alarm details
-//                    Intent intent = new Intent(this, AlertDetails.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "test" )
-                            .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
-                            .setContentTitle(timer.getTimerName())
-                            .setContentText(contentText)
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//                            .setContentIntent(pendingIntent)
-//                            .setAutoCancel(true);
-                    int notificationId = 0;
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-                    // notificationId is a unique int for each notification that you must define
-                    notificationManager.notify(notificationId, builder.build());
-                    notificationId++;
-                }
-
-            };
-            timer.setCountDown(countDown);
-            countDown.start();
+            // Create early notification alarms
+            for (EarlyNotificationObject earlyReminder: timer.getEarlyNotifications()) {
+                int earlyWarningNotificationId = scheduleNotification(
+                        getNotification(timer.getTimerName(), "Early Warning"),
+                        timer.getExpirationTime() - earlyReminder.getEarlyWarningLength());
+                earlyReminder.notificationId = earlyWarningNotificationId;
+            }
 
             Toast toast = Toast.makeText(getApplicationContext(), "Timer Added", Toast.LENGTH_SHORT);
             toast.show();

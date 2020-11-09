@@ -1,8 +1,11 @@
 package com.example.juniordesigntest;
 
 import android.os.CountDownTimer;
+import android.provider.CalendarContract;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -17,20 +20,26 @@ public class TimerObject {
     private long hours;
     private long minutes;
     private CountDownTimer countDown;
-    private List<long[]> earlyNotifications;
+    private List<EarlyNotificationObject> earlyNotifications;
+    private int alarmId;
+    private Date expirationDate;
 
     private final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
-    TimerObject(String timerName, long timerLength, TimerType timerType, long hours, long minutes, List<long[]> earlyNotifications) {
+    TimerObject(String timerName, long timerLength, TimerType timerType, long hours, long minutes, List<EarlyNotificationObject> earlyNotifications) {
         this.timerName = timerName;
         this.startTime = System.currentTimeMillis();
         this.timerType = timerType;
         this.earlyNotifications = earlyNotifications;
 
+        Calendar calendar = Calendar.getInstance();
+
         switch (timerType) {
             case COUNTDOWN:
                 this.expirationTime = System.currentTimeMillis() + timerLength;
                 this.timerLength = timerLength;
+                calendar.add(Calendar.MILLISECOND, (int) timerLength);
+                this.expirationDate = calendar.getTime();
                 break;
             case ALARM:
                 this.hours = hours;
@@ -43,6 +52,8 @@ public class TimerObject {
                 } else {
                     this.timerLength = getExpirationTime() - System.currentTimeMillis();
                 }
+                calendar.add(Calendar.MILLISECOND, (int) timerLength);
+                this.expirationDate = calendar.getTime();
                 break;
         }
     }
@@ -75,7 +86,7 @@ public class TimerObject {
         return minutes;
     }
 
-    public List<long[]> getEarlyNotifications() { return earlyNotifications; }
+    public List<EarlyNotificationObject> getEarlyNotifications() { return earlyNotifications; }
 
     public void setTimerName(String timerName) {
         this.timerName = timerName;
@@ -136,7 +147,28 @@ public class TimerObject {
         this.countDown = countDown;
     }
 
-    public void setEarlyNotifications(List<long[]> earlyNotifications) {
+    public void setEarlyNotifications(List<EarlyNotificationObject> earlyNotifications) {
         this.earlyNotifications = earlyNotifications;
+    }
+
+    public void setAlarmId(int id) {
+        alarmId = id;
+    }
+
+    public int getAlarmId() {
+        return alarmId;
+    }
+
+    public Date getExpirationTimeStamp() {
+        return expirationDate;
+    }
+
+    public void setExpirationTimeStamp(String expirationTimeStamp) {
+        expirationTimeStamp = expirationTimeStamp;
+    }
+
+    public boolean isTimerExpired() {
+        Calendar currentTime = Calendar.getInstance();
+        return currentTime.getTime().after(expirationDate);
     }
 }

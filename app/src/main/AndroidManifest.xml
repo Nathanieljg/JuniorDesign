@@ -46,6 +46,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <receiver android:name=".NotificationPublisher" ></receiver>
     </application>
 
 </manifest>

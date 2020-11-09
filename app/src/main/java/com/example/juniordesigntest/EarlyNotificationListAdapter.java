@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNotificationListAdapter.EarlyNotificationViewHolder> {
 
-    private List<long[]> mEarlyNotifications;
+    private List<EarlyNotificationObject> mEarlyNotifications;
 
     public EarlyNotificationListAdapter(int timerObjectPos) {
         this.mEarlyNotifications = GlobalTimerList.alarmList.get(timerObjectPos).getEarlyNotifications();
@@ -37,8 +37,8 @@ public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNoti
     @Override
     public void onBindViewHolder(@NonNull EarlyNotificationViewHolder holder, final int position) {
 
-        final long[] earlyNotification = mEarlyNotifications.get(position);
-        holder.earlyNotificationTime.setText(formatEarlyNotificationString(earlyNotification));
+        final EarlyNotificationObject earlyNotification = mEarlyNotifications.get(position);
+        holder.earlyNotificationTime.setText(formatEarlyNotificationString(earlyNotification.time));
 
         holder.deleteButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View view) {
