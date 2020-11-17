@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNotificationListAdapter.EarlyNotificationViewHolder> {
 
     private List<EarlyNotificationObject> mEarlyNotifications;
+    private static ClickListener clickListener;
 
     public EarlyNotificationListAdapter(int timerObjectPos) {
         this.mEarlyNotifications = GlobalTimerList.alarmList.get(timerObjectPos).getEarlyNotifications();
@@ -78,11 +79,19 @@ public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNoti
             // remove early notification from AlarmObject and AlarmManager
             deleteButton.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View view) {
+                    clickListener.onDeleteClick(getAdapterPosition(), view);
                     mEarlyNotifications.remove(getAdapterPosition());
                     notifyDataSetChanged();
                 }
             });
         }
+    }
 
+    public void setOnItemClickListener(ClickListener clickListener) {
+        EarlyNotificationListAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onDeleteClick(int position, View v);
     }
 }

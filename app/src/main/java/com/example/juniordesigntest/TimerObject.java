@@ -193,9 +193,5 @@ public class TimerObject {
         expirationTimeStamp = expirationTimeStamp;
     }
 
-    public boolean isTimerExpired() {
-        Calendar currentTime = Calendar.getInstance();
-        return System.currentTimeMillis() > expirationTime;
-//        return currentTime.getTime().after(expirationTime);
-    }
+    public boolean isTimerExpired() { return System.currentTimeMillis() > expirationTime; }
 }

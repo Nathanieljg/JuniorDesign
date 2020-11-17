@@ -43,12 +43,15 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
     private Button buttonDone;
     private Button earlyNotificationButton;
     private int pos;
+    private AlarmManagerScheduler alarmManagerScheduler;
     private static final long DAY_AS_MILLI = 24 * 60 * 60 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
+        alarmManagerScheduler = new AlarmManagerScheduler(this);
 
         Intent intent = getIntent();
         pos = intent.getIntExtra("index", 0);
@@ -140,81 +143,6 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
         }
     }
 
-    /*
-Schedules a new notification and returns the ID of the notification
- */
-    private int scheduleNotification(Notification notification, long expirationTime) {
-        int notificationId = GlobalTimerList.getNewAlarmId();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "ATTAK_timer";
-            String description = "Channel for timer notifications";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("test", name, importance);
-            channel.setDescription(description);
-
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-
-            Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
-            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(
-                    expirationTime,
-                    pendingIntent);
-            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);
-
-//            alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, expirationTime, pendingIntent);
-        }
-        return notificationId;
-    }
-
-    private Notification getNotification(String contentTitle, String contentText) {
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "test" )
-                .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
-                .setContentTitle(contentTitle)
-                .setContentText(contentText)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        return builder.build();
-    }
-
-    private void removeNotification(int notificationId, Notification notification) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "ATTAK_timer";
-            String description = "Channel for timer notifications";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("test", name, importance);
-            channel.setDescription(description);
-
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-
-            Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
-            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(
-//                    expirationTime,
-//                    pendingIntent);
-            alarmManager.cancel(pendingIntent);
-//            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);
-
-//            alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, expirationTime, pendingIntent);
-        }
-//        return notificationId;
-    }
-
     private void editAlarm(final TimerObject timer) {
         String alarmName = editAlarmName.getText().toString();
         if (alarmName.equals("")) {
@@ -240,18 +168,18 @@ Schedules a new notification and returns the ID of the notification
             // TODO: Switch to use AlarmManager
 
             // Replace main timer Alarmclock
-            Notification notification = getNotification(timer.getTimerName(),  "Timer Complete");
-            removeNotification(timer.getAlarmId(), notification);
-            int timerNotificationId = scheduleNotification(
+            Notification notification = alarmManagerScheduler.getNotification(timer.getTimerName(),  "Timer Complete");
+            alarmManagerScheduler.removeNotification(timer.getAlarmId(), notification);
+            int timerNotificationId = alarmManagerScheduler.scheduleNotification(
                     notification,
                     timer.getExpirationTime());
             timer.setAlarmId(timerNotificationId);
 
             // Create early notification alarms
             for (EarlyNotificationObject earlyReminder: timer.getEarlyNotifications()) {
-                Notification earlyWarningNotification = getNotification(timer.getTimerName(),  "Early Warning: " + earlyReminder.getEarlyNotificationTime() + " until expiration");
-                removeNotification(earlyReminder.notificationId, notification);
-                int earlyWarningNotificationId = scheduleNotification(
+                Notification earlyWarningNotification = alarmManagerScheduler.getNotification(timer.getTimerName(),  "Early Warning: " + earlyReminder.getEarlyNotificationTime() + " until expiration");
+                alarmManagerScheduler.removeNotification(earlyReminder.notificationId, notification);
+                int earlyWarningNotificationId = alarmManagerScheduler.scheduleNotification(
                         earlyWarningNotification,
                         timer.getExpirationTime() - earlyReminder.getEarlyWarningLength());
                 earlyReminder.notificationId = earlyWarningNotificationId;

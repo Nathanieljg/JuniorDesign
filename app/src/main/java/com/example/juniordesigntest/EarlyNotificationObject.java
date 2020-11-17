@@ -9,7 +9,9 @@ public class EarlyNotificationObject {
     public int notificationId;
 
     EarlyNotificationObject(long[] earlyNotificationLength) {
+
         this.time = earlyNotificationLength;
+        this.notificationId = GlobalTimerList.getNewAlarmId();
     }
 
     public long getEarlyWarningLength() {

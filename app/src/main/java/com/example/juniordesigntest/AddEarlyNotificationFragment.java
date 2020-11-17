@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -29,7 +30,6 @@ import java.util.List;
 
 public class AddEarlyNotificationFragment extends DialogFragment implements DialogInterface.OnDismissListener {
 
-    private RecyclerView recyclerView;
     private int timerObjectPos;
     private NumberPicker hours;
     private NumberPicker minutes;
@@ -37,6 +37,7 @@ public class AddEarlyNotificationFragment extends DialogFragment implements Dial
     private List<EarlyNotificationObject> mEarlyNotifications;
     private Button addEarlyWarningDialogButton;
     private TimerObject parentTimer;
+    private AlarmManagerScheduler alarmManagerScheduler;
 
     public AddEarlyNotificationFragment() {
         // Required empty public constructor
@@ -45,6 +46,7 @@ public class AddEarlyNotificationFragment extends DialogFragment implements Dial
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.alarmManagerScheduler = new AlarmManagerScheduler((AppCompatActivity) getActivity());
         this.timerObjectPos = getArguments().getInt("pos");
         this.parentTimer = GlobalTimerList.alarmList.get(timerObjectPos);
         this.mEarlyNotifications = parentTimer.getEarlyNotifications();
@@ -109,50 +111,6 @@ public class AddEarlyNotificationFragment extends DialogFragment implements Dial
 
     }
 
-    /*
-    Schedules a new notification and returns the ID of the notification
-     */
-    private int scheduleNotification(Notification notification, long expirationTime) {
-        int notificationId = GlobalTimerList.getNewAlarmId();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "ATTAK_timer";
-            String description = "Channel for timer notifications";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("test", name, importance);
-            channel.setDescription(description);
-
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-
-            Intent notificationIntent = new Intent(getActivity(), NotificationPublisher.class);
-            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
-            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(
-                    expirationTime,
-                    pendingIntent);
-            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);
-
-//            alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, expirationTime, pendingIntent);
-        }
-        return notificationId;
-    }
-
-    private Notification getNotification(String contentTitle, String contentText) {
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity().getApplicationContext(), "test" )
-                .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
-                .setContentTitle(contentTitle)
-                .setContentText(contentText)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        return builder.build();
-    }
-
     private void addEarlyNotification() {
         long hoursToMilli = hours.getValue() * 60 * 60 * 1000;
         long minToMilli = minutes.getValue() * 60 * 1000;
@@ -161,8 +119,8 @@ public class AddEarlyNotificationFragment extends DialogFragment implements Dial
             long[] earlyNotificationLength = {hoursToMilli, minToMilli, secToMilli};
             EarlyNotificationObject newNotification = new EarlyNotificationObject(earlyNotificationLength);
             mEarlyNotifications.add(newNotification);
-            scheduleNotification(
-                    getNotification(parentTimer.getTimerName(), "Early Warning: " + newNotification.getEarlyNotificationTime() + " until expiration"),
+            alarmManagerScheduler.scheduleNotification(
+                    alarmManagerScheduler.getNotification(parentTimer.getTimerName(), "Early Warning: " + newNotification.getEarlyNotificationTime() + " until expiration"),
                     parentTimer.getExpirationTime() - newNotification.getEarlyWarningLength());
         }
 
