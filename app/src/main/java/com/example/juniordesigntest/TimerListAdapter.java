@@ -92,7 +92,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
                 }
 
                 int progressLeft = (int)(( (float)(millisUntilFinished) / totalTime) * 100);
-                System.out.println(progressLeft);
+
                 holder.progressBar.setProgress(progressLeft);
                 holder.progressBar.setProgressTintList(getProgressColor(progressLeft));
 

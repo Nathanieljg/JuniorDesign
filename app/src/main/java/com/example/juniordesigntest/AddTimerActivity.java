@@ -250,23 +250,23 @@ public class AddTimerActivity extends AppCompatActivity {
             }
             GlobalTimerList.alarmList.add(timer);
 
-            long remainingTimerTime;
-            if (timer.getExpirationTime() < System.currentTimeMillis()) {
-                remainingTimerTime = DAY_AS_MILLI - (System.currentTimeMillis() - timer.getExpirationTime());
-            } else {
-                remainingTimerTime = timer.getExpirationTime() - System.currentTimeMillis();
-            }
+//            long remainingTimerTime;
+//            if (timer.getExpirationTime() < System.currentTimeMillis()) {
+//                remainingTimerTime = DAY_AS_MILLI - (System.currentTimeMillis() - timer.getExpirationTime());
+//            } else {
+//                remainingTimerTime = timer.getExpirationTime() - System.currentTimeMillis();
+//            }
 
             // Create main alarms
             int timerNotificationId = scheduleNotification(
-                    getNotification(timer.getTimerName(), "Timer Complete"),
+                    getNotification(timer.getTimerName(),  "Timer Complete"),
                     timer.getExpirationTime());
             timer.setAlarmId(timerNotificationId);
 
             // Create early notification alarms
             for (EarlyNotificationObject earlyReminder: timer.getEarlyNotifications()) {
                 int earlyWarningNotificationId = scheduleNotification(
-                        getNotification(timer.getTimerName(), "Early Warning"),
+                        getNotification(timer.getTimerName(), "Early Warning: " + earlyReminder.getEarlyNotificationTime() + " until expiration"),
                         timer.getExpirationTime() - earlyReminder.getEarlyWarningLength());
                 earlyReminder.notificationId = earlyWarningNotificationId;
             }
@@ -276,6 +276,14 @@ public class AddTimerActivity extends AppCompatActivity {
             Intent myIntent = new Intent(AddTimerActivity.this, HomeScreen.class);
             AddTimerActivity.this.startActivity(myIntent);
         }
+    }
+
+    public List<EarlyNotificationObject> getEarlyNotifications() {
+        return earlyNotifications;
+    }
+
+    public void setEarlyNotifications(List<EarlyNotificationObject> earlyNotifications) {
+        this.earlyNotifications = earlyNotifications;
     }
 
 }

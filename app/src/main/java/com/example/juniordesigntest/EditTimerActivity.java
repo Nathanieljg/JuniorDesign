@@ -204,14 +204,15 @@ Schedules a new notification and returns the ID of the notification
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(
-                    expirationTime,
-                    pendingIntent);
-            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);
+//            AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(
+//                    expirationTime,
+//                    pendingIntent);
+            alarmManager.cancel(pendingIntent);
+//            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);
 
 //            alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, expirationTime, pendingIntent);
         }
-        return notificationId;
+//        return notificationId;
     }
 
     private void editAlarm(final TimerObject timer) {
@@ -224,27 +225,37 @@ Schedules a new notification and returns the ID of the notification
             long minToMilli = minutes.getValue() * 60 * 1000;
             long secToMilli = seconds.getValue() * 1000;
 
+            timer.setTimerName(alarmName);
+
             if (timer.getTimerType() == TimerType.COUNTDOWN) {
-                timer.setTimerName(alarmName);
                 timer.setTimerLength(hoursToMilli + minToMilli + secToMilli);
                 timer.setHours(0);
                 timer.setMinutes(0);
             } else {
-                timer.setTimerName(alarmName);
-                timer.setTimerLength(hoursToMilli + minToMilli + secToMilli);
                 timer.setHours(hours.getValue());
                 timer.setMinutes(minutes.getValue());
+                timer.setTimerLength(hoursToMilli + minToMilli + secToMilli);
             }
 
-            timer.getCountDown().cancel();
-
-            long remainingTimerTime;
-            if (timer.getExpirationTime() < System.currentTimeMillis()) {
-                remainingTimerTime = DAY_AS_MILLI - (System.currentTimeMillis() - timer.getExpirationTime());
-            } else {
-                remainingTimerTime = timer.getExpirationTime() - System.currentTimeMillis();
-            }
             // TODO: Switch to use AlarmManager
+
+            // Replace main timer Alarmclock
+            Notification notification = getNotification(timer.getTimerName(),  "Timer Complete");
+            removeNotification(timer.getAlarmId(), notification);
+            int timerNotificationId = scheduleNotification(
+                    notification,
+                    timer.getExpirationTime());
+            timer.setAlarmId(timerNotificationId);
+
+            // Create early notification alarms
+            for (EarlyNotificationObject earlyReminder: timer.getEarlyNotifications()) {
+                Notification earlyWarningNotification = getNotification(timer.getTimerName(),  "Early Warning: " + earlyReminder.getEarlyNotificationTime() + " until expiration");
+                removeNotification(earlyReminder.notificationId, notification);
+                int earlyWarningNotificationId = scheduleNotification(
+                        earlyWarningNotification,
+                        timer.getExpirationTime() - earlyReminder.getEarlyWarningLength());
+                earlyReminder.notificationId = earlyWarningNotificationId;
+            }
 
 //            CountDownTimer countDown = new CountDownTimer(remainingTimerTime, 1000) {
 //                @Override
@@ -310,19 +321,19 @@ Schedules a new notification and returns the ID of the notification
 //            timer.setCountDown(countDown);
 //            countDown.start();
 
-            // Create main alarms
-            int timerNotificationId = scheduleNotification(
-                    getNotification(timer.getTimerName(), "Timer Complete"),
-                    timer.getExpirationTime());
-            timer.setAlarmId(timerNotificationId);
-
-            // Create early notification alarms
-            for (EarlyNotificationObject earlyReminder: timer.getEarlyNotifications()) {
-                int earlyWarningNotificationId = scheduleNotification(
-                        getNotification(timer.getTimerName(), "Early Warning"),
-                        timer.getExpirationTime() - earlyReminder.getEarlyWarningLength());
-                earlyReminder.notificationId = earlyWarningNotificationId;
-            }
+//            // Create main alarms
+//            int timerNotificationId = scheduleNotification(
+//                    getNotification(timer.getTimerName(), "Timer Complete"),
+//                    timer.getExpirationTime());
+//            timer.setAlarmId(timerNotificationId);
+//
+//            // Create early notification alarms
+//            for (EarlyNotificationObject earlyReminder: timer.getEarlyNotifications()) {
+//                int earlyWarningNotificationId = scheduleNotification(
+//                        getNotification(timer.getTimerName(), "Early Warning"),
+//                        timer.getExpirationTime() - earlyReminder.getEarlyWarningLength());
+//                earlyReminder.notificationId = earlyWarningNotificationId;
+//            }
 
             Toast toast = Toast.makeText(getApplicationContext(), "Timer Added", Toast.LENGTH_SHORT);
             toast.show();
@@ -338,5 +349,14 @@ Schedules a new notification and returns the ID of the notification
         EarlyNotificationFragment earlyNotificationFragment = new EarlyNotificationFragment();
         earlyNotificationFragment.setArguments(bundle);
         earlyNotificationFragment.show(getSupportFragmentManager(), "TEST");
+    }
+
+    private boolean checkIfTimeChanged(TimerObject timer) {
+        int countHours = (int) (TimeUnit.MILLISECONDS.toHours(timer.getTimerLength()));
+        int countMinutes = (int) (TimeUnit.MILLISECONDS.toMinutes(timer.getTimerLength())%60);
+        int countSeconds = (int) (TimeUnit.MILLISECONDS.toSeconds(timer.getTimerLength())%60);
+        return (countHours != hours.getValue()
+                || countMinutes != minutes.getValue()
+                || countSeconds != seconds.getValue());
     }
 }

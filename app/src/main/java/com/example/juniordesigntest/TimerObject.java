@@ -2,6 +2,7 @@ package com.example.juniordesigntest;
 
 import android.os.CountDownTimer;
 import android.provider.CalendarContract;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class TimerObject {
 
@@ -76,7 +78,18 @@ public class TimerObject {
 
     TimerType getTimerType() { return timerType; }
 
-    String getTimerTime() { return String.format(Locale.getDefault(), "%02d:%02d", hours, minutes); }
+    String getTimerTime() {
+        if (timerType == TimerType.COUNTDOWN) {
+            int tempHours = (int) (TimeUnit.MILLISECONDS.toHours(timerLength));
+            int tempMinutes = (int) (TimeUnit.MILLISECONDS.toMinutes(timerLength) % 60);
+            int tempSeconds = (int) (TimeUnit.MILLISECONDS.toSeconds(timerLength) % 60);
+            return String.format(Locale.getDefault(), "%02d:%02d:%02d", tempHours, tempMinutes, tempSeconds);
+        } else {
+            return String.format(Locale.getDefault(), "%02d:%02d", this.hours, this.minutes);
+        }
+    }
+
+
 
     public long getHours() {
         return hours;
@@ -132,10 +145,23 @@ public class TimerObject {
 
     public void setExpirationInMillis() {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, (int) this.hours);
-        cal.set(Calendar.MINUTE, (int) this.minutes);
         TimeZone tz = TimeZone.getTimeZone("GMT");
         cal.setTimeZone(tz);
+        cal.getTime();
+        Log.e("System current time", String.valueOf(cal.getTime()));
+        Log.e("System current time ms", String.valueOf(cal.getTimeInMillis()));
+//        if (cal.get(Calendar.HOUR_OF_DAY) < this.hours && cal.get(cal.get(Calendar.MINUTE)) < this.minutes) {
+//            cal.add(Calendar.DATE, 1);
+//        }
+        cal.set(Calendar.HOUR_OF_DAY, (int) this.hours);
+        cal.set(Calendar.MINUTE, (int) this.minutes);
+        cal.set(Calendar.SECOND, 0);
+        // move to next day if timer has passed
+        if (cal.before(Calendar.getInstance())) {
+            cal.add(Calendar.DATE, 1);
+        }
+        Log.e("Alarm end time", String.valueOf(cal.getTime()));
+        Log.e("Alarm end time in milli", String.valueOf(cal.getTimeInMillis()));
         setExpirationTime(cal.getTimeInMillis());
     }
 
@@ -169,6 +195,7 @@ public class TimerObject {
 
     public boolean isTimerExpired() {
         Calendar currentTime = Calendar.getInstance();
-        return currentTime.getTime().after(expirationDate);
+        return System.currentTimeMillis() > expirationTime;
+//        return currentTime.getTime().after(expirationTime);
     }
 }
