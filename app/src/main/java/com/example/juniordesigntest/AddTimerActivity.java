@@ -11,6 +11,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -208,6 +213,7 @@ public class AddTimerActivity extends AppCompatActivity {
                 timer = new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, hours.getValue(), minutes.getValue(), earlyNotifications);
             }
             GlobalTimerList.alarmList.add(timer);
+            saveData();
 
             // Create main alarms
             int timerNotificationId = alarmManagerScheduler.scheduleNotification(
@@ -229,4 +235,18 @@ public class AddTimerActivity extends AppCompatActivity {
             AddTimerActivity.this.startActivity(myIntent);
         }
     }
+    /**
+    * A method to save the updated global timer list whenever a new timer is
+    * added to it
+    * */
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(GlobalTimerList.alarmList);
+        editor.putString(GlobalTimerList.listName, json);
+        editor.apply();
+    }
+
+
 }
