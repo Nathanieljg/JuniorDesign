@@ -5,6 +5,7 @@
     android:id="@+id/editActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#47A4ED"
     tools:context=".EditTimerActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,18 +20,16 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <EditText
         android:id="@+id/alarmNameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:drawableTint="#FFFFFF"
         android:ems="10"
         android:hint="@string/timer_name_hint"
         android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,37 +40,38 @@
         android:id="@+id/editNumberPickerSeconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="244dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerMinutes"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.197"
-        app:layout_constraintStart_toEndOf="@+id/textViewM"
-        app:layout_constraintTop_toTopOf="@+id/editNumberPickerMinutes"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintHorizontal_bias="0.861"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.453" />
 
     <NumberPicker
         android:id="@+id/editNumberPickerMinutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/alarmNameEditText"
-        app:layout_constraintHorizontal_bias="0.205"
-        app:layout_constraintStart_toStartOf="@+id/alarmNameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/alarmNameEditText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.453" />
 
     <NumberPicker
         android:id="@+id/editNumberPickerHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerMinutes"
-        app:layout_constraintEnd_toEndOf="@+id/alarmNameEditText"
-        app:layout_constraintHorizontal_bias="0.399"
+        android:background="#FDFDFD"
+        android:foregroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editNumberPickerMinutes"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.453" />
 
     <TextView
         android:id="@+id/editTextViewH"
@@ -79,13 +79,14 @@
         android:layout_height="102dp"
         android:gravity="center"
         android:text="@string/hours_text"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerHours"
-        app:layout_constraintEnd_toEndOf="@+id/alarmNameEditText"
-        app:layout_constraintHorizontal_bias="0.071"
-        app:layout_constraintStart_toEndOf="@+id/editNumberPickerHours"
-        app:layout_constraintTop_toTopOf="@+id/editNumberPickerHours"
-        app:layout_constraintVertical_bias="0.487" />
+        app:layout_constraintBottom_toBottomOf="@+id/editEarlyNotificationsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.246"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.507" />
 
     <TextView
         android:id="@+id/editTextViewM"
@@ -93,13 +94,14 @@
         android:layout_height="102dp"
         android:gravity="center"
         android:text="@string/minutes_text"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerMinutes"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toEndOf="@+id/editNumberPickerMinutes"
         app:layout_constraintTop_toTopOf="@+id/editNumberPickerMinutes"
-        app:layout_constraintVertical_bias="0.487" />
+        app:layout_constraintVertical_bias="0.448" />
 
     <TextView
         android:id="@+id/editTextViewS"
@@ -107,34 +109,41 @@
         android:layout_height="102dp"
         android:gravity="center"
         android:text="@string/seconds_text"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editNumberPickerSeconds"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toEndOf="@+id/editNumberPickerSeconds"
-        app:layout_constraintTop_toTopOf="@+id/editNumberPickerSeconds"
-        app:layout_constraintVertical_bias="0.487" />
-
-    <Button
-        android:id="@+id/buttonDone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DONE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.931" />
+        app:layout_constraintVertical_bias="0.456" />
 
     <Button
         android:id="@+id/editEarlyNotificationsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#3350F1"
         android:text="edit early notifications"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonDone"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonDone"
-        app:layout_constraintTop_toTopOf="@+id/buttonDone" />
+        app:layout_constraintHorizontal_bias="0.814"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.907" />
+
+    <Button
+        android:id="@+id/buttonDone"
+        android:layout_width="94dp"
+        android:layout_height="52dp"
+        android:backgroundTint="#3350F1"
+        android:text="DONE"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.148"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.907" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
