@@ -25,6 +25,8 @@
     <include
         layout="@layout/content_home_screen"
         android:layout_width="match_parent"
-        android:layout_height="476dp" />
+        android:layout_height="896dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF" />
 
 </LinearLayout>
