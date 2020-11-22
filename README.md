@@ -21,5 +21,5 @@
 
 - Application appears to only run while the SDK (i.e. Android device) is sleeping, will not run when the device is turned off (i.e. rebooted)
 - When a user edits the timer (not attempting to change the time or name), by adding an early warning notification, 
-  when brought back to the view timers screen the alarm has reset to the original time (rather than running the entire time, it will reset)
+  when brought back to the view timers screen the alarm has reset to the original time (rather than running while editing, it will reset)
 - Appears to be a 2 second delay between the early warrning noticication sound and the time left on timer (having notifications seconds apart will be an issue)
