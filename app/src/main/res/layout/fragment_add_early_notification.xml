@@ -1,63 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addEarlyNotificationFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/addEarlyNotificationFragment"
-    tools:context=".AddEarlyNotificationFragment"
-    android:orientation="horizontal">
+    android:background="#47A4ED"
+    android:orientation="horizontal"
+    tools:context=".AddEarlyNotificationFragment">
 
     <NumberPicker
         android:id="@+id/editEarlyNotificationsNumberPickerHours"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF" />
 
     <TextView
         android:id="@+id/editEarlyNotificationsTextViewH"
         android:layout_width="46dp"
         android:layout_height="102dp"
+        android:layout_gravity="center_vertical"
         android:gravity="center"
         android:text="@string/hours_text"
-        android:textSize="30sp"
-        android:layout_gravity="center_vertical"/>
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
 
     <NumberPicker
         android:id="@+id/editEarlyNotificationsNumberPickerMinutes"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF" />
 
     <TextView
         android:id="@+id/editEarlyNotificationsTextViewM"
         android:layout_width="46dp"
         android:layout_height="102dp"
+        android:layout_gravity="center_vertical"
         android:gravity="center"
         android:text="@string/minutes_text"
-        android:textSize="30sp"
-        android:layout_gravity="center_vertical"/>
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
 
     <NumberPicker
         android:id="@+id/editEarlyNotificationsNumberPickerSeconds"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF" />
 
     <TextView
         android:id="@+id/editEarlyNotificationsTextViewS"
         android:layout_width="46dp"
         android:layout_height="102dp"
+        android:layout_gravity="center_vertical"
         android:gravity="center"
         android:text="@string/seconds_text"
-        android:textSize="30sp"
-        android:layout_gravity="center_vertical"/>
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/addEarlyWarningDialogButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/addString"
         android:layout_gravity="center_vertical"
-        android:background="@android:color/holo_green_light"/>
+        android:layout_weight="1"
+        android:background="#3350F1"
+        android:text="@string/addString"
+        android:textColor="#FFFFFF" />
 
 
 </LinearLayout>
