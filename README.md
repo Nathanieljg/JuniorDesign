@@ -34,3 +34,22 @@
         1. ***Build*** menu
         2. ***Generate Signed APK...***
         3. Fill in the keystore information (you only need to do this once manually and then let Android Studio remember it)
+
+## Setting Up Environment
+* Download and install Android Studio
+    * [Link](https://developer.android.com/studio)
+* Remaining dependencies can be auto-installed using Android Studio
+
+## Set Up Android Virtual Device
+If planning to run application through Android Studio, then an Android Virtual Device must be set up. These steps describe how to configure an Android Virtual Device that replicates a Pixel 2 XL.
+1. In Android Studio, click the **Tools** menu, select **Android**, and click **AVD Manager** to open the Android Virtual Device Manager.
+2. Use the Android Virtual Device Manager to create the Pixel 2 XL device. Click **Create Virtual Device**.
+3. In the category list select **Phone**, then select the **Pixel 2 XL** device and click **Next**.
+4. Select **Q** and click **Next**.
+5. Ensure the Orientation is set to **Landscape** and click **Finish**.
+6. In the Android Virtual Device Manager, start the Pixel 2 XL Android Virtual Device.
+
+## Installation
+Clone this repository and import into **Android Studio**
+`git clone https://github.com/Nathanieljg/JuniorDesign.git`
+
