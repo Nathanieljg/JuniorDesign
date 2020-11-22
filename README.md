@@ -1,6 +1,6 @@
 # JIC-134 Twist-On-Time
 
-## #############Release Notes ATAK Stand-Alone 1.0#############
+## ##############Release Notes ATAK Stand-Alone 1.0##############
 
 ## New Features
 * Developed stand-alone ATAK application
@@ -21,4 +21,4 @@
   when brought back to the view timers screen the alarm has reset to the original time (rather than running while editing, it will reset)
 * Appears to be a 2 second delay between the early warning notification sound and the time left on timer (having notifications seconds apart will be an issue)
 
-## ################Installation Guide################
+## #####################Installation Guide#####################
