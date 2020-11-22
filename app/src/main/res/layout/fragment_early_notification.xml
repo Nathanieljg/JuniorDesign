@@ -14,21 +14,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:text="Early Notifications" />
+        android:background="#47A4ED"
+        android:text="Early Notifications"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/createNewButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:background="@android:color/holo_green_light"
-        android:text="create new " />
+        android:background="#3350F1"
+        android:text="create new "
+        android:textColor="#FFFFFF" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/earlyNotificationRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/earlyNotificationRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="#47A4ED">
 
-        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>
