@@ -21,4 +21,16 @@
   when brought back to the view timers screen the alarm has reset to the original time (rather than running while editing, it will reset)
 * Appears to be a 2 second delay between the early warning notification sound and the time left on timer (having notifications seconds apart will be an issue)
 
+
 ## #####################Installation Guide#####################
+
+## Prerequisites
+* JDK 1.8
+* Android SDK
+    * Target SDK Version: 29
+    * Minimum SDK Version: 23
+* Generating Signed APK
+    * From Android Studio:
+        1. ***Build*** menu
+        2. ***Generate Signed APK...***
+        3. Fill in the keystore information (you only need to do this once manually and then let Android Studio remember it)
