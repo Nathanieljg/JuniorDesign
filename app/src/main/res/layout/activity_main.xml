@@ -21,7 +21,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_view_timers" />
+    <include
+        layout="@layout/content_view_timers"
+        android:layout_height="528dp"
+        android:background="#47A4ED"
+        android:backgroundTint="#47A4ED" />
 
 <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
 <!--        android:id="@+id/fab"-->
