@@ -1,6 +1,6 @@
 # JIC-134 Twist-On-Time
 
-## ####################### Release Notes ATAK Stand-Alone 1.0 ###########################
+## ########## Release Notes ATAK Stand-Alone 1.0 ##########
 
 ## New Features
 - Developed stand-alone ATAK application
