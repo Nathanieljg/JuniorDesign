@@ -61,7 +61,7 @@ public class AddTimerActivity extends AppCompatActivity {
 
         earlyNotifications = new ArrayList<>();
         hours = findViewById(R.id.numberPickerHours);
-        earlyHours = findViewById(R.id.earlyNumberPickerHours);
+       // earlyHours = findViewById(R.id.earlyNumberPickerHours);
 
         String[] hoursValues = new String[100];
         for (int i = 0; i < 100; i++) {
@@ -72,13 +72,13 @@ public class AddTimerActivity extends AppCompatActivity {
         hours.setDisplayedValues(hoursValues);
         hours.setWrapSelectorWheel(true);
 
-        earlyHours.setMinValue(0);
-        earlyHours.setMaxValue(99);
-        earlyHours.setDisplayedValues(hoursValues);
-        earlyHours.setWrapSelectorWheel(true);
+     //   earlyHours.setMinValue(0);
+     //   earlyHours.setMaxValue(99);
+     //   earlyHours.setDisplayedValues(hoursValues);
+      //  earlyHours.setWrapSelectorWheel(true);
 
         minutes = findViewById(R.id.numberPickerMinutes);
-        earlyMinutes = findViewById(R.id.earlyNumberPickerMinutes);
+       // earlyMinutes = findViewById(R.id.earlyNumberPickerMinutes);
 
         String[] minutesValues = new String[60];
         for (int i = 0; i < 60; i++) {
@@ -89,12 +89,12 @@ public class AddTimerActivity extends AppCompatActivity {
         minutes.setDisplayedValues(minutesValues);
         minutes.setWrapSelectorWheel(true);
 
-        earlyMinutes.setMinValue(0);
-        earlyMinutes.setMaxValue(59);
-        earlyMinutes.setDisplayedValues(minutesValues);
-        earlyMinutes.setWrapSelectorWheel(true);
+      //  earlyMinutes.setMinValue(0);
+      //  earlyMinutes.setMaxValue(59);
+      //  earlyMinutes.setDisplayedValues(minutesValues);
+     //   earlyMinutes.setWrapSelectorWheel(true);
 
-        earlySeconds = findViewById(R.id.earlyNumberPickerSeconds);
+       // earlySeconds = findViewById(R.id.earlyNumberPickerSeconds);
         seconds = findViewById(R.id.numberPickerSeconds);
 
         String[] secondsValues = new String[60];
@@ -106,10 +106,10 @@ public class AddTimerActivity extends AppCompatActivity {
         seconds.setDisplayedValues(secondsValues);
         seconds.setWrapSelectorWheel(true);
 
-        earlySeconds.setMinValue(0);
-        earlySeconds.setMaxValue(59);
-        earlySeconds.setDisplayedValues(secondsValues);
-        earlySeconds.setWrapSelectorWheel(true);
+      //  earlySeconds.setMinValue(0);
+     //   earlySeconds.setMaxValue(59);
+      //  earlySeconds.setDisplayedValues(secondsValues);
+     //   earlySeconds.setWrapSelectorWheel(true);
 
         editAlarmName = findViewById(R.id.alarmNameEditText);
 
@@ -120,12 +120,12 @@ public class AddTimerActivity extends AppCompatActivity {
             }
         });
 
-        buttonAddEarlyNotifications = findViewById(R.id.buttonAddEarly);
-        buttonAddEarlyNotifications.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                addEarlyNotifications();
-            }
-        });
+      //  buttonAddEarlyNotifications = findViewById(R.id.buttonAddEarly);
+       // buttonAddEarlyNotifications.setOnClickListener(new View.OnClickListener() {
+           // public void onClick(View v) {
+                //addEarlyNotifications();
+           // }
+       // });
 
 
         timerSelection = findViewById(R.id.radioGroup);
@@ -164,6 +164,7 @@ public class AddTimerActivity extends AppCompatActivity {
             }
         });
     }
+
     private void addEarlyNotifications() { //this is called whenver the add notification button is pushed
         Toast toast = Toast.makeText(getApplicationContext(), "Early Notification added", Toast.LENGTH_SHORT);
 
@@ -182,6 +183,8 @@ public class AddTimerActivity extends AppCompatActivity {
 
     }
 
+
+
     private void addAlarm() {
         String alarmName = editAlarmName.getText().toString();
         if (alarmName.equals("")) {
@@ -191,6 +194,7 @@ public class AddTimerActivity extends AppCompatActivity {
             long hoursToMilli = hours.getValue() * 60 * 60 * 1000;
             long minToMilli = minutes.getValue() * 60 * 1000;
             long secToMilli = seconds.getValue() * 1000;
+
 
             for (EarlyNotificationObject earlyNotification: earlyNotifications) {
                 if (hoursToMilli + minToMilli + secToMilli <
@@ -250,3 +254,4 @@ public class AddTimerActivity extends AppCompatActivity {
 
 
 }
+
