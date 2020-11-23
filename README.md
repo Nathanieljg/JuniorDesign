@@ -87,7 +87,7 @@ To run the application, follow these steps:
 4. Application is ready to run any feature.
 
 ### Troubleshooting
-Troubleshooting can be managed by using tools provided Android Studio environment. To debug the application, follow these steps:
+Troubleshooting can be managed by using tools provided by the Android Studio environment. To debug the application, follow these steps:
 1. In toolbar, select the run/debug configuration from the **Select Run/Debug Configuration** drop-down list
 2. Select **Run** and click **Debug**
 3. Debugger window should open. If not, select **View**, select **Tool Windows** and click **Debug**.
