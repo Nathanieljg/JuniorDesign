@@ -32,7 +32,7 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintHorizontal_bias="0.408"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.081" />
@@ -47,10 +47,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <NumberPicker
-            android:id="@+id/editNumberPickerSeconds"
+            android:id="@+id/editNumberPickerHours"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF" />
+            android:background="#FDFDFD"
+            android:foregroundTint="#FFFFFF" />
 
         <TextView
             android:id="@+id/editTextViewH"
@@ -77,11 +78,10 @@
             android:textSize="30sp" />
 
         <NumberPicker
-            android:id="@+id/editNumberPickerHours"
+            android:id="@+id/editNumberPickerSeconds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FDFDFD"
-            android:foregroundTint="#FFFFFF" />
+            android:background="#FFFFFF" />
 
         <TextView
             android:id="@+id/editTextViewS"
@@ -102,10 +102,10 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/alarmNameEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.802"
+        app:layout_constraintHorizontal_bias="0.649"
         app:layout_constraintStart_toEndOf="@+id/buttonDone"
         app:layout_constraintTop_toTopOf="@+id/alarmNameEditText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/buttonDone"
@@ -129,11 +129,11 @@
         android:text="exit without saving"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/buttonDone"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.252"
         app:layout_constraintStart_toEndOf="@+id/buttonDone"
         app:layout_constraintTop_toTopOf="@+id/buttonDone"
-        app:layout_constraintVertical_bias="0.526" />
+        app:layout_constraintVertical_bias="0.421" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

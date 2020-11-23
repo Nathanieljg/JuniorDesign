@@ -7,86 +7,62 @@
     android:background="#47A4ED"
     tools:context=".AddTimerActivity">
 
-    <NumberPicker
-        android:id="@+id/numberPickerMinutes"
-        android:layout_width="63dp"
-        android:layout_height="99dp"
-        android:background="#FFFFFF"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.567" />
-
-    <TextView
-        android:id="@+id/textViewH"
-        android:layout_width="46dp"
-        android:layout_height="102dp"
-        android:gravity="center"
-        android:text="@string/hours_text"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/numberPickerHours"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/numberPickerHours"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <NumberPicker
-        android:id="@+id/numberPickerSeconds"
-        android:layout_width="64dp"
-        android:layout_height="101dp"
-        android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.779"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57" />
-
-    <TextView
-        android:id="@+id/textViewM"
-        android:layout_width="46dp"
-        android:layout_height="102dp"
-        android:gravity="center"
-        android:text="@string/minutes_text"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/numberPickerMinutes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.582"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/numberPickerMinutes"
-        app:layout_constraintVertical_bias="1.0" />
-
-
-    <NumberPicker
-        android:id="@+id/numberPickerHours"
-        android:layout_width="65dp"
-        android:layout_height="99dp"
-        android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.214"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.567" />
-
-    <TextView
-        android:id="@+id/textViewS"
-        android:layout_width="46dp"
-        android:layout_height="102dp"
-        android:gravity="center"
-        android:text="@string/seconds_text"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/numberPickerSeconds"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/numberPickerSeconds"
-        app:layout_constraintTop_toTopOf="@+id/numberPickerSeconds"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.09">
+
+        <NumberPicker
+            android:id="@+id/numberPickerHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textViewH"
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/hours_text"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <NumberPicker
+            android:id="@+id/numberPickerMinutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textViewM"
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/minutes_text"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <NumberPicker
+            android:id="@+id/numberPickerSeconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textViewS"
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/seconds_text"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonAddTimer"
@@ -97,10 +73,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.257" />
 
     <EditText
         android:id="@+id/alarmNameEditText"
@@ -119,18 +94,18 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="435dp"
-        android:layout_height="70dp"
+        android:layout_width="359dp"
+        android:layout_height="76dp"
         android:background="#47A4ED"
         android:checkedButton="@+id/radioButtonCountdown"
         android:orientation="horizontal"
         android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.228"
+        app:layout_constraintTop_toBottomOf="@+id/alarmNameEditText"
+        app:layout_constraintVertical_bias="0.051"
         tools:ignore="MissingConstraints">
 
 
