@@ -17,8 +17,7 @@
 
 ### Known Bugs
 * Application appears to only run while the SDK (i.e. Android device) is sleeping, will not run when the device is turned off (i.e. rebooted)
-* When a user edits the countdown (not attempting to change the time or name), by adding an early warning notification,
-  when brought back to the view timers screen the countdown has reset to the original time (rather than running while editing, it will reset)
+* After a user edits the countdown by adding an early warning notification, they are brought back to the view timers where the countdown has reset to the original time (rather than running while editing, it will reset)
 * Appears to be a 2 second delay between the early warning notification sound and the time left on timer (having notifications seconds apart will be an issue)
 
 
