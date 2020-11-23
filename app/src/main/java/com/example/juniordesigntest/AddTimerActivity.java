@@ -216,8 +216,6 @@ public class AddTimerActivity extends AppCompatActivity {
                 timerType = TimerType.ALARM;
                 timer = new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, hours.getValue(), minutes.getValue(), earlyNotifications);
             }
-            GlobalTimerList.alarmList.add(timer);
-            GlobalTimerList.saveData(this);
 
             // Create main alarms
             int timerNotificationId = alarmManagerScheduler.scheduleNotification(
@@ -232,6 +230,9 @@ public class AddTimerActivity extends AppCompatActivity {
                         timer.getExpirationTime() - earlyReminder.getEarlyWarningLength());
                 earlyReminder.notificationId = earlyWarningNotificationId;
             }
+
+            GlobalTimerList.alarmList.add(timer);
+            GlobalTimerList.saveData(this);
 
             Toast toast = Toast.makeText(getApplicationContext(), "Timer Added", Toast.LENGTH_SHORT);
             toast.show();
