@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="#47A4ED"
     android:orientation="horizontal"
-    tools:context=".AddEarlyNotificationFragment">
+    tools:context="com.example.ataktimers.AddEarlyNotificationFragment">
 
     <NumberPicker
         android:id="@+id/editEarlyNotificationsNumberPickerHours"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.juniordesigntest">
+    package="com.example.ataktimers">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -18,14 +18,14 @@
         -->
 
         <activity
-            android:name=".EditTimerActivity"
+            android:name="com.example.ataktimers.EditTimerActivity"
             android:label="@string/title_activity_edit">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeScreen"
+            android:name="com.example.ataktimers.HomeScreen"
             android:label="@string/title_activity_home_screen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -35,18 +35,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddTimerActivity"
+            android:name="com.example.ataktimers.AddTimerActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ViewTimers"
+            android:name="com.example.ataktimers.ViewTimers"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <receiver android:name=".NotificationPublisher" ></receiver>
+        <receiver android:name="com.example.ataktimers.NotificationPublisher" ></receiver>
     </application>
 
 </manifest>

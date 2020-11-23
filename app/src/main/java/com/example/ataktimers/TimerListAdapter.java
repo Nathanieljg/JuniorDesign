@@ -1,4 +1,4 @@
-package com.example.juniordesigntest;
+package com.example.ataktimers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.ataktimers.R;
 
 import java.util.List;
 import java.util.Locale;

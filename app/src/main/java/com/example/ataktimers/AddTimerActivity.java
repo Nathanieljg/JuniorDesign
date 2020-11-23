@@ -1,18 +1,10 @@
-package com.example.juniordesigntest;
+package com.example.ataktimers;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,15 +15,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ataktimers.R;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AddTimerActivity extends AppCompatActivity {
@@ -72,13 +59,13 @@ public class AddTimerActivity extends AppCompatActivity {
         hours.setDisplayedValues(hoursValues);
         hours.setWrapSelectorWheel(true);
 
-     //   earlyHours.setMinValue(0);
-     //   earlyHours.setMaxValue(99);
-     //   earlyHours.setDisplayedValues(hoursValues);
-      //  earlyHours.setWrapSelectorWheel(true);
+//        earlyHours.setMinValue(0);
+//        earlyHours.setMaxValue(99);
+//        earlyHours.setDisplayedValues(hoursValues);
+//        earlyHours.setWrapSelectorWheel(true);
 
         minutes = findViewById(R.id.numberPickerMinutes);
-       // earlyMinutes = findViewById(R.id.earlyNumberPickerMinutes);
+//        earlyMinutes = findViewById(R.id.earlyNumberPickerMinutes);
 
         String[] minutesValues = new String[60];
         for (int i = 0; i < 60; i++) {
@@ -89,12 +76,12 @@ public class AddTimerActivity extends AppCompatActivity {
         minutes.setDisplayedValues(minutesValues);
         minutes.setWrapSelectorWheel(true);
 
-      //  earlyMinutes.setMinValue(0);
-      //  earlyMinutes.setMaxValue(59);
-      //  earlyMinutes.setDisplayedValues(minutesValues);
-     //   earlyMinutes.setWrapSelectorWheel(true);
-
-       // earlySeconds = findViewById(R.id.earlyNumberPickerSeconds);
+//        earlyMinutes.setMinValue(0);
+//        earlyMinutes.setMaxValue(59);
+//        earlyMinutes.setDisplayedValues(minutesValues);
+//        earlyMinutes.setWrapSelectorWheel(true);
+//
+//        earlySeconds = findViewById(R.id.earlyNumberPickerSeconds);
         seconds = findViewById(R.id.numberPickerSeconds);
 
         String[] secondsValues = new String[60];
@@ -106,10 +93,10 @@ public class AddTimerActivity extends AppCompatActivity {
         seconds.setDisplayedValues(secondsValues);
         seconds.setWrapSelectorWheel(true);
 
-      //  earlySeconds.setMinValue(0);
-     //   earlySeconds.setMaxValue(59);
-      //  earlySeconds.setDisplayedValues(secondsValues);
-     //   earlySeconds.setWrapSelectorWheel(true);
+//        earlySeconds.setMinValue(0);
+//        earlySeconds.setMaxValue(59);
+//        earlySeconds.setDisplayedValues(secondsValues);
+//        earlySeconds.setWrapSelectorWheel(true);
 
         editAlarmName = findViewById(R.id.alarmNameEditText);
 
@@ -120,12 +107,12 @@ public class AddTimerActivity extends AppCompatActivity {
             }
         });
 
-      //  buttonAddEarlyNotifications = findViewById(R.id.buttonAddEarly);
-       // buttonAddEarlyNotifications.setOnClickListener(new View.OnClickListener() {
-           // public void onClick(View v) {
-                //addEarlyNotifications();
-           // }
-       // });
+//        buttonAddEarlyNotifications = findViewById(R.id.buttonAddEarly);
+//        buttonAddEarlyNotifications.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                addEarlyNotifications();
+//            }
+//        });
 
 
         timerSelection = findViewById(R.id.radioGroup);
@@ -164,8 +151,11 @@ public class AddTimerActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * this is called whenever the add notification button is pushed
+     */
+    private void addEarlyNotifications() {
 
-    private void addEarlyNotifications() { //this is called whenver the add notification button is pushed
         Toast toast = Toast.makeText(getApplicationContext(), "Early Notification added", Toast.LENGTH_SHORT);
 
         long hoursToMilli = earlyHours.getValue() * 60 * 60 * 1000;

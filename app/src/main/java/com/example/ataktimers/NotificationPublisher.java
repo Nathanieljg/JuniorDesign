@@ -1,4 +1,4 @@
-package com.example.juniordesigntest;
+package com.example.ataktimers;
 
 import android.app.Notification;
 import android.app.NotificationManager;

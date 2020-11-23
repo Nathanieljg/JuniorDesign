@@ -1,4 +1,4 @@
-package com.example.juniordesigntest;
+package com.example.ataktimers;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;

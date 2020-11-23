@@ -1,4 +1,4 @@
-package com.example.juniordesigntest;
+package com.example.ataktimers;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -12,7 +12,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.FragmentActivity;
+
+import com.example.ataktimers.R;
 
 public class AlarmManagerScheduler {
 

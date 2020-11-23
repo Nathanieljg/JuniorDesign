@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="#47A4ED"
     android:orientation="horizontal"
-    tools:context=".TimerListAdapter">
+    tools:context="com.example.ataktimers.TimerListAdapter">
 
     <TableRow
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.juniordesigntest;
+package com.example.ataktimers;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import java.util.ArrayList;
+import com.example.ataktimers.R;
+
 import java.util.Iterator;
-import java.util.List;
-import java.util.Timer;
 
 public class ViewTimers extends AppCompatActivity {
 
