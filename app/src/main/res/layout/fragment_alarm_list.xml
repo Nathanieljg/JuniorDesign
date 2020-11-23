@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="#47A4ED"
     android:orientation="horizontal"
@@ -16,6 +16,7 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
+            android:layout_gravity="center_vertical"
             android:text="00:00:00 (test)"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="#FFFFFF" />
@@ -25,6 +26,7 @@
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
+            android:layout_gravity="center_vertical"
             android:text="ALARM NAME TEST"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="#FFFFFF" />
@@ -41,6 +43,7 @@
             android:layout_width="110dp"
             android:layout_height="38dp"
             android:backgroundTint="#3350F1"
+            android:layout_gravity="center_vertical"
             android:text="Edit"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#FFFFFF" />
