@@ -25,7 +25,7 @@
 ## Installation Guide
 
 ### Prerequisites
-The following pre requisites are neccessary to run this application.
+The following pre requisites are necessary to run this application.
 * JDK 1.8
 * Android SDK
     * Target SDK Version: 29
@@ -54,7 +54,7 @@ OR
 Download the repository as a .zip file and extract the file to a desired location on your local machine. Repository can be downloaded with [https://github.com/Nathanieljg/JuniorDesign/archive/master.zip](https://github.com/Nathanieljg/JuniorDesign/archive/master.zip)
 
 ### Build
-No build necessary. Downloaded zip file includes all necessary files for execution.
+No build necessary. Downloaded zip file includes all necessary build gradle files for execution.
 
 ### Configuration Setup
 Before running, need to create run/debug configuration.
@@ -87,5 +87,13 @@ To run the application, follow these steps:
 4. Application is ready to run any feature.
 
 ### Troubleshooting
+Troubleshooting can be managed by using tools provided Android Studio environment. To debug the application, follow these steps:
+1. In toolbar, select the run/debug configuration from the **Select Run/Debug Configuration** drop-down list
+2. Select **Run** and click **Debug**
+3. Debugger window should open. If not, select **View**, select **Tool Windows** and click **Debug**.
+
+If experiencing any difficulties when running, the following are possible solutions:
 * Make sure to set the API level to 23 or higher
+* Create and select a run/debug configuration
+* Install all listed prerequisites
 
