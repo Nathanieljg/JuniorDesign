@@ -37,8 +37,11 @@
 
 ## Setting Up Environment
 * Download and install Android Studio
-    * [Link](https://developer.android.com/studio)
-* Remaining dependencies can be auto-installed using Android Studio
+    * [https://developer.android.com/studio](https://developer.android.com/studio)
+
+## Dependencies
+* Download Android version 10 or higher.
+    * See [https://developer.android.com/studio/releases/platforms](https://developer.android.com/studio/releases/platforms)
 
 ## Set Up Android Virtual Device
 If planning to run application through Android Studio, then an Android Virtual Device must be set up. These steps describe how to configure an Android Virtual Device that replicates a Pixel 2 XL.
@@ -51,5 +54,10 @@ If planning to run application through Android Studio, then an Android Virtual D
 
 ## Installation
 Clone this repository and import into **Android Studio**
+
 `git clone https://github.com/Nathanieljg/JuniorDesign.git`
+
+OR
+
+Download with [https://github.com/Nathanieljg/JuniorDesign/archive/master.zip](https://github.com/Nathanieljg/JuniorDesign/archive/master.zip)
 
