@@ -50,6 +50,8 @@ public class EarlyNotificationFragment extends DialogFragment {
             @Override
             public void onDeleteClick(int position, View v) {
                 alarmManagerScheduler.removeNotification(mEarlyNotifications.get(position).notificationId, alarmManagerScheduler.getNotification("Remove", "Remove"));
+                mEarlyNotifications.remove(position);
+                GlobalTimerList.saveData(getActivity());
             }
         });
         recyclerView.setAdapter(arrayAdapter);

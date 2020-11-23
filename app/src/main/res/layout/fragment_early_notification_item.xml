@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_gravity="center_vertical"
-            android:background="#3350F1"
+            android:background="#F44336"
             android:text="delete"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#FFFFFF" />
