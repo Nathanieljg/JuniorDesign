@@ -97,3 +97,5 @@ If experiencing any difficulties when running, the following are possible soluti
 * Create and select a run/debug configuration
 * Install all listed prerequisites
 
+For more information, visit [https://developer.android.com/studio/troubleshoot](https://developer.android.com/studio/troubleshoot)
+
