@@ -25,6 +25,7 @@
 ## #####################Installation Guide#####################
 
 ## Prerequisites
+The following pre requisites are neccessary to run this application.
 * JDK 1.8
 * Android SDK
     * Target SDK Version: 29
@@ -41,19 +42,19 @@
 
 ## Dependencies
 * Download Android version 10, API 29 or higher.
-    * See [https://developer.android.com/studio/releases/platforms](https://developer.android.com/studio/releases/platforms)
+    * See for more information: [https://developer.android.com/studio/releases/platforms](https://developer.android.com/studio/releases/platforms)
 
-## Installation
-Clone this repository and import into **Android Studio**
+## Download
+Clone this repository and import into **Android Studio**. Run the following statement directly from the command line:
 
 `git clone https://github.com/Nathanieljg/JuniorDesign.git`
 
 OR
 
-Download with [https://github.com/Nathanieljg/JuniorDesign/archive/master.zip](https://github.com/Nathanieljg/JuniorDesign/archive/master.zip)
+Download the repository as a .zip file and extract the file to a desired location on your local machine. Repository can be downloaded with [https://github.com/Nathanieljg/JuniorDesign/archive/master.zip](https://github.com/Nathanieljg/JuniorDesign/archive/master.zip)
 
 ## Build
-No build necessary. Downloaded zip files includes all necessary files for execution.
+No build necessary. Downloaded zip file includes all necessary files for execution.
 
 ## Configuration Setup
 Before running, need to create run/debug configuration.
@@ -83,7 +84,7 @@ To run the application, follow these steps:
 1. In toolbar, select the run/debug configuration from the **Select Run/Debug Configuration** drop-down list
 2. Select **Run** and click **Run**
 3. If using an AVM, the virtual device will be shown. The application will automatically be started. If not, search for the application on the device and manually start.
-4. Application is ready to run any feature
+4. Application is ready to run any feature.
 
 ## Troubleshooting
 
