@@ -40,8 +40,34 @@
     * [https://developer.android.com/studio](https://developer.android.com/studio)
 
 ## Dependencies
-* Download Android version 10 or higher.
+* Download Android version 10, API 29 or higher.
     * See [https://developer.android.com/studio/releases/platforms](https://developer.android.com/studio/releases/platforms)
+
+## Installation
+Clone this repository and import into **Android Studio**
+
+`git clone https://github.com/Nathanieljg/JuniorDesign.git`
+
+OR
+
+Download with [https://github.com/Nathanieljg/JuniorDesign/archive/master.zip](https://github.com/Nathanieljg/JuniorDesign/archive/master.zip)
+
+## Build
+No build necessary. Downloaded zip files includes all necessary files for execution.
+
+## Configuration Setup
+Before running, need to create run/debug configuration.
+1. To open the Run/Debug Configurations dialog, select **Run** and click **Edit Configurations**
+2. Click **Add New Configuration**
+3. Select a default template
+4. Type a name in the **Name** field
+5. Select from **Installation Option** dropdown to **Default APK**
+6. Select from **Launch Option** dropdown to **Default Activity**
+7. Click **Finish** to create.
+
+
+## Device Installation
+Application can be run either on a real Android device or on a Android Virtual device emulator. All functionality works on either device option.
 
 ## Set Up Android Virtual Device
 If planning to run application through Android Studio, then an Android Virtual Device must be set up. These steps describe how to configure an Android Virtual Device that replicates a Pixel 2 XL.
@@ -52,12 +78,15 @@ If planning to run application through Android Studio, then an Android Virtual D
 5. Ensure the Orientation is set to **Landscape** and click **Finish**.
 6. In the Android Virtual Device Manager, start the Pixel 2 XL Android Virtual Device.
 
-## Installation
-Clone this repository and import into **Android Studio**
+## Run Instructions
+To run the application, follow these steps:
+1. In toolbar, select the run/debug configuration from the **Select Run/Debug Configuration** drop-down list
+2. Select **Run** and click **Run**
+3. If using an AVM, the virtual device will be shown. The application will automatically be started. If not, search for the application on the device and manually start.
+4. Application is ready to run any feature
 
-`git clone https://github.com/Nathanieljg/JuniorDesign.git`
+## Troubleshooting
 
-OR
 
-Download with [https://github.com/Nathanieljg/JuniorDesign/archive/master.zip](https://github.com/Nathanieljg/JuniorDesign/archive/master.zip)
+
 
