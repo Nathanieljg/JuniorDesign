@@ -13,9 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Timer;
+
 public class ViewTimers extends AppCompatActivity {
 
     private Button buttonHome;
+    private TimerListAdapter alarmAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,8 @@ public class ViewTimers extends AppCompatActivity {
 //            System.out.println("TESTING" + i);
 //        }
 
-        TimerListAdapter alarmAdapter = new TimerListAdapter(GlobalTimerList.alarmList, this);
+
+        alarmAdapter = new TimerListAdapter(GlobalTimerList.alarmList, this);
         alarmList.setAdapter(alarmAdapter);
 //        alarmAdapter.updateAlarmObjects(alarmObjects);
         alarmAdapter.notifyDataSetChanged();
@@ -72,6 +79,14 @@ public class ViewTimers extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (checkForExpiredTimers()) {
+            alarmAdapter.notifyDataSetChanged();
+        }
+    }
+
     public void addTimer(View view) {
         Intent intent = new Intent(ViewTimers.this, AddTimerActivity.class);
         startActivity(intent);
@@ -80,6 +95,18 @@ public class ViewTimers extends AppCompatActivity {
     public void returnHome(View view) {
         Intent intent = new Intent(ViewTimers.this,HomeScreen.class);
         startActivity(intent);
+    }
+
+    public boolean checkForExpiredTimers() {
+        boolean updated = false;
+        for (Iterator<TimerObject> iter = GlobalTimerList.alarmList.iterator(); iter.hasNext(); ) {
+            TimerObject timer = iter.next();
+            if (timer.isTimerExpired()) {
+                updated = true;
+                iter.remove();
+            }
+        }
+        return updated;
     }
 }
 

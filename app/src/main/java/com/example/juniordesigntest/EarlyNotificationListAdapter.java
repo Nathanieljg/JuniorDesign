@@ -19,7 +19,8 @@ import java.util.concurrent.TimeUnit;
 
 public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNotificationListAdapter.EarlyNotificationViewHolder> {
 
-    private List<long[]> mEarlyNotifications;
+    private List<EarlyNotificationObject> mEarlyNotifications;
+    private static ClickListener clickListener;
 
     public EarlyNotificationListAdapter(int timerObjectPos) {
         this.mEarlyNotifications = GlobalTimerList.alarmList.get(timerObjectPos).getEarlyNotifications();
@@ -37,27 +38,27 @@ public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNoti
     @Override
     public void onBindViewHolder(@NonNull EarlyNotificationViewHolder holder, final int position) {
 
-        final long[] earlyNotification = mEarlyNotifications.get(position);
-        holder.earlyNotificationTime.setText(formatEarlyNotificationString(earlyNotification));
+        final EarlyNotificationObject earlyNotification = mEarlyNotifications.get(position);
+        holder.earlyNotificationTime.setText(earlyNotification.getEarlyNotificationTime());
 
-        holder.deleteButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View view) {
-                mEarlyNotifications.remove(position);
-                notifyDataSetChanged();
-            }
-        });
+//        holder.deleteButton.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View view) {
+//                mEarlyNotifications.remove(position);
+//                notifyDataSetChanged();
+//            }
+//        });
 
     }
 
-    public String formatEarlyNotificationString(long[] notification) {
-        long hours = TimeUnit.MILLISECONDS.toHours(notification[0]);
-        long min = TimeUnit.MILLISECONDS.toMinutes(notification[1]);
-        long sec = TimeUnit.MILLISECONDS.toSeconds(notification[2]);
-        return String.format(Locale.getDefault(), "%02d:%02d:%02d",
-                hours,
-                min,
-                sec);
-    }
+//    public String formatEarlyNotificationString(long[] notification) {
+//        long hours = TimeUnit.MILLISECONDS.toHours(notification[0]);
+//        long min = TimeUnit.MILLISECONDS.toMinutes(notification[1]);
+//        long sec = TimeUnit.MILLISECONDS.toSeconds(notification[2]);
+//        return String.format(Locale.getDefault(), "%02d:%02d:%02d",
+//                hours,
+//                min,
+//                sec);
+//    }
 
     @Override
     public int getItemCount() {
@@ -72,8 +73,25 @@ public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNoti
         public EarlyNotificationViewHolder(@NonNull View itemView) {
             super(itemView);
             earlyNotificationTime = itemView.findViewById(R.id.earlyNotificationTime);
-            deleteButton = itemView.findViewById(R.id.deleteButton);
-        }
 
+            deleteButton = itemView.findViewById(R.id.deleteButton);
+
+            // remove early notification from AlarmObject and AlarmManager
+            deleteButton.setOnClickListener(new Button.OnClickListener() {
+                public void onClick(View view) {
+                    clickListener.onDeleteClick(getAdapterPosition(), view);
+                    mEarlyNotifications.remove(getAdapterPosition());
+                    notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    public void setOnItemClickListener(ClickListener clickListener) {
+        EarlyNotificationListAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onDeleteClick(int position, View v);
     }
 }
