@@ -1,7 +1,7 @@
 # JIC-134 Twist-On-Time
 
 ## Release Notes ATAK Stand-Alone
-### Version 1.0
+### Version 1.0.0
 ### New Features
 * Developed stand-alone ATAK application
 * Allowed users to create an alarm or countdown timer
