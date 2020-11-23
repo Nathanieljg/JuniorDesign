@@ -194,6 +194,8 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
                 earlyReminder.notificationId = earlyWarningNotificationId;
             }
 
+            GlobalTimerList.saveData(this);
+
             Toast toast = Toast.makeText(getApplicationContext(), "Timer Added", Toast.LENGTH_SHORT);
             toast.show();
             Intent myIntent = new Intent(EditTimerActivity.this, ViewTimers.class);

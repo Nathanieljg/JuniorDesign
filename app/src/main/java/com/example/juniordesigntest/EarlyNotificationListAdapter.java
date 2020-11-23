@@ -80,7 +80,6 @@ public class EarlyNotificationListAdapter extends RecyclerView.Adapter<EarlyNoti
             deleteButton.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View view) {
                     clickListener.onDeleteClick(getAdapterPosition(), view);
-                    mEarlyNotifications.remove(getAdapterPosition());
                     notifyDataSetChanged();
                 }
             });

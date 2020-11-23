@@ -22,7 +22,7 @@ public class HomeScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        loadData();
+        GlobalTimerList.loadData(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -37,20 +37,6 @@ public class HomeScreen extends AppCompatActivity {
     public void viewTimers(View view) {
         Intent intent = new Intent(HomeScreen.this, ViewTimers.class);
         startActivity(intent);
-    }
-
-    /***
-     * Load in the data via shared preferences, and update the globalTimerAlarmList
-     */
-    private void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(GlobalTimerList.listName, null);
-        Type type = new TypeToken<ArrayList<TimerObject>>() {}.getType();
-        GlobalTimerList.alarmList = gson.fromJson(json, type);
-        if (GlobalTimerList.alarmList == null) {
-            GlobalTimerList.alarmList = new ArrayList<>();
-        }
     }
 
 }

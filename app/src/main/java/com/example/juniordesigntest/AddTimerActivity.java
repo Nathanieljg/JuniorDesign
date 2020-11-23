@@ -217,7 +217,7 @@ public class AddTimerActivity extends AppCompatActivity {
                 timer = new TimerObject(alarmName, hoursToMilli + minToMilli + secToMilli, timerType, hours.getValue(), minutes.getValue(), earlyNotifications);
             }
             GlobalTimerList.alarmList.add(timer);
-            saveData();
+            GlobalTimerList.saveData(this);
 
             // Create main alarms
             int timerNotificationId = alarmManagerScheduler.scheduleNotification(
@@ -238,18 +238,6 @@ public class AddTimerActivity extends AppCompatActivity {
             Intent myIntent = new Intent(AddTimerActivity.this, HomeScreen.class);
             AddTimerActivity.this.startActivity(myIntent);
         }
-    }
-    /**
-    * A method to save the updated global timer list whenever a new timer is
-    * added to it
-    * */
-    private void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(GlobalTimerList.alarmList);
-        editor.putString(GlobalTimerList.listName, json);
-        editor.apply();
     }
 
 

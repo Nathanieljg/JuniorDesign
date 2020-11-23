@@ -122,6 +122,7 @@ public class AddEarlyNotificationFragment extends DialogFragment implements Dial
             alarmManagerScheduler.scheduleNotification(
                     alarmManagerScheduler.getNotification(parentTimer.getTimerName(), "Early Warning: " + newNotification.getEarlyNotificationTime() + " until expiration"),
                     parentTimer.getExpirationTime() - newNotification.getEarlyWarningLength());
+            GlobalTimerList.saveData(getActivity());
         }
 
         this.dismiss();
