@@ -174,8 +174,6 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
                 timer.setTimerLength(hoursToMilli + minToMilli + secToMilli);
             }
 
-            // TODO: Switch to use AlarmManager
-
             // Replace main timer Alarmclock
             Notification notification = alarmManagerScheduler.getNotification(timer.getTimerName(),  "Timer Complete");
             alarmManagerScheduler.removeNotification(timer.getAlarmId(), notification);
@@ -221,7 +219,7 @@ public class EditTimerActivity<mTimerObjectList> extends AppCompatActivity {
                 || countSeconds != seconds.getValue());
     }
 
-    public void exitWithoutSaving(View view) {
+    private void exitWithoutSaving(View view) {
         Intent intent = new Intent(EditTimerActivity.this, ViewTimers.class);
         startActivity(intent);
     }
